@@ -1,4 +1,4 @@
-package ant;
+package fr.cypno.anthill.map;
 
 public class Food extends Cell {
 
