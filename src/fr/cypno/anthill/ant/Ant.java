@@ -98,4 +98,8 @@ public class Ant {
         ((Anthill) position).addFood(this.food);
         this.food = 0.0;
     }
+    
+    public void dropPheromons() {
+        this.position.setPheromons(this.position.quantityPheromons() + this.pheromons);
+    }
 }

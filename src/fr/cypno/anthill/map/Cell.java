@@ -20,4 +20,8 @@ public abstract class Cell {
         if(pheromons < 0)
             pheromons = 0;
     }
+    
+    public void setPheromons(double quantity) {
+        this.pheromons = quantity;
+    }
 }
