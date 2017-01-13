@@ -1,7 +1,6 @@
 package fr.cypno.anthill.ant;
 
-import fr.cypno.anthill.ant.exceptions.NotAnthillCellException;
-import fr.cypno.anthill.ant.exceptions.NotFoodCellException;
+import fr.cypno.anthill.ant.exceptions.*;
 import fr.cypno.anthill.map.*;
 import java.util.*;
 
@@ -12,6 +11,14 @@ public class Ant {
     private List<Cell> cells;
     private double food;
     private Cell position;
+
+    public Cell getPosition() {
+        return position;
+    }
+
+    public void setPosition(Cell position) {
+        this.position = position;
+    }
 
     public double getFoodCapacity() {
         return foodCapacity;
@@ -52,7 +59,13 @@ public class Ant {
         this.cells = new ArrayList<Cell>();
         this.food = 0.0;
     }
-
+    
+    /**
+     * Methode permettant de recuperer la nourriture sur la cellule courante
+     * La fourmi prend de la nourriture jusqu'à se qu'elle n'est plus de place (foodCapacity)
+     * Cette methode diminue la quantite de nourriture de la cellule (en fonction de la quantite prise)
+     * @throws NotFoodCellException 
+     */
     public void pullFood() throws NotFoodCellException {
         if (!(position instanceof Food)) {
             throw new NotFoodCellException();
@@ -63,11 +76,15 @@ public class Ant {
         if (cellQuantity + oldQuantity >= currentCapacity) {
             this.food = this.foodCapacity;
         } else {
-            this.food = cellQuantity;
+            this.food += cellQuantity;
         }
-        ((Food) position).setQuantity(this.food - oldQuantity);
+        ((Food)position).setQuantity(cellQuantity - this.food + oldQuantity);
     }
 
+    /**
+     * Methode permettant de deposer la nourriture sur la cellule courante (fourmilière)
+     * @throws NotAnthillCellException 
+     */
     public void pushFood() throws NotAnthillCellException {
         if (!(position instanceof Anthill)) {
             throw new NotAnthillCellException();
