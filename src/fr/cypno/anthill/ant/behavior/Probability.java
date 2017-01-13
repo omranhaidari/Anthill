@@ -1,4 +1,4 @@
-package fr.cypno.anthill.ant;
+package fr.cypno.anthill.ant.behavior;
 
 import fr.cypno.anthill.map.Cell;
 
@@ -17,5 +17,10 @@ public class Probability {
     public Probability(int probability, Cell destination) {
         this.probability = probability;
         this.destination = destination;
+    }
+
+    @Override
+    public String toString() {
+        return "" + probability;
     }
 }
