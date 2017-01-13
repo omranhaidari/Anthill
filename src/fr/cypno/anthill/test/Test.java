@@ -12,7 +12,7 @@ public class Test {
     public static void main(String[] args) {
         try {
             Anthill ah = new Anthill();
-            Ant a = new Ant(25, 10,Direction.North);
+            Ant a = new Ant(25, 10,4);
 
             System.out.println("Orientation de la fourmi : " + a.getDirection());
             Food f1 = new Food(14);
@@ -41,7 +41,7 @@ public class Test {
             System.out.println("Capacité fourmi : " + a.getFoodCapacity());
 
             
-            a.setDirection(Direction.SouthEast);
+            a.setDirection(2);
             System.out.println("Orientation de la fourmi : " + a.getDirection());
             a.setPosition(ah);
             System.out.println("Déplacement sur la cellule ah");
@@ -53,7 +53,7 @@ public class Test {
             
             a.setPosition(e2);
             System.out.println("Déplacement sur la cellule e2");
-            a.pushFood();
+            //a.pushFood();
             
             
         } catch (NotFoodCellException | NotAnthillCellException ex) {
