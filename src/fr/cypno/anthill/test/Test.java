@@ -12,8 +12,9 @@ public class Test {
     public static void main(String[] args) {
         try {
             Anthill ah = new Anthill();
-            Ant a = new Ant(25, 10);
+            Ant a = new Ant(25, 10,Direction.North);
 
+            System.out.println("Orientation de la fourmi : " + a.getDirection());
             Food f1 = new Food(14);
             Food f2 = new Food(12);
             Empty e1 = new Empty(0);
@@ -39,6 +40,9 @@ public class Test {
             System.out.println("Quantité de nourriture sur la fourmi : " + a.getFood());
             System.out.println("Capacité fourmi : " + a.getFoodCapacity());
 
+            
+            a.setDirection(Direction.SouthEast);
+            System.out.println("Orientation de la fourmi : " + a.getDirection());
             a.setPosition(ah);
             System.out.println("Déplacement sur la cellule ah");
             System.out.println("Quantité nourrite AntHill avant : " + ah.getQuantity());

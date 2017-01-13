@@ -11,7 +11,17 @@ public class Ant {
     private List<Cell> cells;
     private double food;
     private Cell position;
+    private Direction direction;
 
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    
     public Cell getPosition() {
         return position;
     }
@@ -48,16 +58,12 @@ public class Ant {
         this.food = food;
     }
 
-    public Ant() {
-        this.cells = new ArrayList<Cell>();
-        this.food = 0.0;
-    }
-
-    public Ant(double foodCapacity, double pheromons) {
+    public Ant(double foodCapacity, double pheromons, Direction d) {
         this.foodCapacity = foodCapacity;
         this.pheromons = pheromons;
         this.cells = new ArrayList<Cell>();
         this.food = 0.0;
+        this.direction = d;
     }
     
     /**
