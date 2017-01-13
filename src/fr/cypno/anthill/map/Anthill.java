@@ -1,8 +1,12 @@
-package ant;
+package fr.cypno.anthill.map;
 
 public class Anthill extends Cell{
     
     private double quantity;
+    
+    public Anthill(){
+        this.quantity = 0;
+    }
     
     public Anthill(double quantity){
         this.quantity = quantity;
