@@ -1,9 +1,8 @@
 package fr.cypno.anthill.ant;
 
-
-import ant.Anthill;
-import ant.Cell;
-import ant.Food;
+import fr.cypno.anthill.ant.exceptions.NotAnthillCellException;
+import fr.cypno.anthill.ant.exceptions.NotFoodCellException;
+import fr.cypno.anthill.map.*;
 import java.util.*;
 
 public class Ant {
@@ -12,6 +11,7 @@ public class Ant {
     private double pheromons;
     private List<Cell> cells;
     private double food;
+    private Cell position;
 
     public double getFoodCapacity() {
         return foodCapacity;
@@ -53,35 +53,26 @@ public class Ant {
         this.food = 0.0;
     }
 
-    public void pullFood() {
-        Cell cell = new Cell();
-        Food cellFood = null;
-        int i = 0;
-        while (!(cell instanceof Food) || i > cells.size()) {
-            cell = this.cells.get(i);
-            i++;
+    public void pullFood() throws NotFoodCellException {
+        if (!(position instanceof Food)) {
+            throw new NotFoodCellException();
         }
-        cellFood = (Food) cell;
-        double foodQuantity = cellFood.getQuantity();
-        if (foodQuantity >= this.foodCapacity) {
+        double cellQuantity = ((Food) position).getQuantity();
+        double oldQuantity = this.food;
+        double currentCapacity = this.foodCapacity - oldQuantity;
+        if (cellQuantity + oldQuantity >= currentCapacity) {
             this.food = this.foodCapacity;
+        } else {
+            this.food = cellQuantity;
         }
-        else {
-            this.food = foodQuantity;
-        }
-        cellFood.setQuantity(foodQuantity - this.food);
+        ((Food) position).setQuantity(this.food - oldQuantity);
     }
-    
-    public void pushFood() {
-        Cell cell = new Cell();
-        Anthill anthill = null;
-        int i = 0;
-        while (!(cell instanceof Anthill) || i > cells.size()) {
-            cell = this.cells.get(i);
-            i++;
+
+    public void pushFood() throws NotAnthillCellException {
+        if (!(position instanceof Anthill)) {
+            throw new NotAnthillCellException();
         }
-        anthill = (Anthill) cell;
-        anthill.addFood(this.food);
+        ((Anthill) position).addFood(this.food);
         this.food = 0.0;
     }
 }

@@ -1,19 +1,23 @@
-package ant;
+package fr.cypno.anthill.map;
 
 public class Anthill extends Cell{
     
-    private double quantity;
+    private double foodQuantity;
+    
+    public Anthill() {
+        
+    }
     
     public Anthill(double quantity){
-        this.quantity = quantity;
+        this.foodQuantity = quantity;
     }
 
     public double getQuantity() {
-        return quantity;
+        return foodQuantity;
     }
 
     public void setQuantity(double quantity) {
-        this.quantity = quantity;
+        this.foodQuantity = quantity;
     }
     
     public void addFood(double quantity) {

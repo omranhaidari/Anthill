@@ -8,6 +8,10 @@ public abstract class Cell {
         this.pheromons = pheromons;
     }
     
+    public Cell() {
+        this.pheromons = 0;
+    }
+    
     public double quantityPheromons(){
         return pheromons;
     }
