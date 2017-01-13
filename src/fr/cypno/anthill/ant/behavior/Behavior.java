@@ -28,6 +28,10 @@ public abstract class Behavior {
             }
         }
         computeProbabilities(cells);
+        int probaMax = 0;
+        for (Probability p : probabilities) {
+            probaMax += p.getProbability();
+        }
     }
     
     protected void computeProbabilities(Cell[][] cells) {
