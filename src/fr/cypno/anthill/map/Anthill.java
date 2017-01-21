@@ -4,12 +4,8 @@ public class Anthill extends Cell{
     
     private double foodQuantity;
     
-    public Anthill() {
-        
-    }
-    
     public Anthill(){
-        this.quantity = 0;
+        this.foodQuantity = 0;
     }
     
     public Anthill(double quantity){
