@@ -1,4 +1,4 @@
-package fr.cypno.map.exceptions;
+package fr.cypno.anthill.map.exceptions;
 
 /**
  *

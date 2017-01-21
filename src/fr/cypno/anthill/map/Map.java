@@ -1,6 +1,6 @@
 package fr.cypno.anthill.map;
 
-import fr.cypno.map.exceptions.InvalidMapFile;
+import fr.cypno.anthill.map.exceptions.InvalidMapFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -16,7 +16,7 @@ public class Map {
     public Map() throws InvalidMapFile{
         
         String dir = System.getProperty("user.dir");
-        String filePath = dir + "\\ressources\\maps\\map.txt";
+        String filePath = dir + "/ressources/maps/map.txt";
         
         
         try {
