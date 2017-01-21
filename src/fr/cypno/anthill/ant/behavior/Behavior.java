@@ -4,6 +4,7 @@ import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.map.Cell;
 import fr.cypno.anthill.map.Empty;
 import java.util.ArrayList;
+import java.util.Random;
  /**
   * Classe abstraite qui gère le comportement des fourmis.
   */
@@ -17,7 +18,7 @@ public abstract class Behavior {
         this.probabilities = new ArrayList<>();
     }
     
-    public void computeDestination() {
+    public Cell computeDestination() {
         // Récupérer les cellules voisines
         int size = 3;
         Cell[][] cells = new Cell[size][];
@@ -29,9 +30,16 @@ public abstract class Behavior {
         }
         computeProbabilities(cells);
         int probaMax = 0;
-        for (Probability p : probabilities) {
+        for (Probability p : probabilities)
             probaMax += p.getProbability();
+        int r = new Random().nextInt(probaMax);
+        System.out.println(r); 
+        for (Probability p : probabilities) {
+            r -= p.getProbability();
+            if (r <= 0)
+                return p.getDestination();
         }
+        return null;
     }
     
     protected void computeProbabilities(Cell[][] cells) {
