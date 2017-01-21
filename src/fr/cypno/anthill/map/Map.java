@@ -13,12 +13,7 @@ public class Map {
     private int[] quantityPerSource;
     private Cell[][] map;
     
-    public Map() throws InvalidMapFile{
-        
-        String dir = System.getProperty("user.dir");
-        String filePath = dir + "/ressources/maps/map.txt";
-        
-        
+    public Map(String filePath) throws InvalidMapFile{
         try {
             Scanner scanner = new Scanner(new File(filePath));
             if(scanner.hasNextInt())

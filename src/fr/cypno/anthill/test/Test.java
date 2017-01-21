@@ -4,21 +4,23 @@ import fr.cypno.anthill.map.*;
 import fr.cypno.anthill.ant.*;
 import fr.cypno.anthill.ant.exceptions.NotAnthillCellException;
 import fr.cypno.anthill.ant.exceptions.NotFoodCellException;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Test {
+
     public static void main(String[] args) {
-        try{
-            Map map = new Map();
+        try {
+            Map map = new Map(System.getProperty("user.dir") + File.separator + "ressources" + File.separator + "maps" + File.separator + "map.txt");
             map.afficher();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-    }
-        
+        }
+
         try {
             Anthill ah = new Anthill();
-            Ant a = new Ant(25, 10,4);
+            Ant a = new Ant(25, 10, 4);
 
             System.out.println("Orientation de la fourmi : " + a.getDirection());
             Food f1 = new Food(14);
@@ -46,7 +48,6 @@ public class Test {
             System.out.println("Quantité de nourriture sur la fourmi : " + a.getFood());
             System.out.println("Capacité fourmi : " + a.getFoodCapacity());
 
-            
             a.setDirection(2);
             System.out.println("Orientation de la fourmi : " + a.getDirection());
             a.setPosition(ah);
@@ -55,13 +56,11 @@ public class Test {
             a.pushFood();
             System.out.println("Quantité nourrite AntHill après : " + ah.getQuantity());
             System.out.println("Quantité de nourriture sur la fourmi : " + a.getFood());
-            
-            
+
             a.setPosition(e2);
             System.out.println("Déplacement sur la cellule e2");
             //a.pushFood();
-            
-            
+
         } catch (NotFoodCellException | NotAnthillCellException ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
