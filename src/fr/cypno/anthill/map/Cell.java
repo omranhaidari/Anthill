@@ -2,14 +2,17 @@ package fr.cypno.anthill.map;
 
 public abstract class Cell {
     private double pheromons;
-    final double PHEROMONS_REMOVED = 1; //Pheromons in less every 
+    final double PHEROMONS_REMOVED = 1;
+    private int x, y;
     
-    public Cell(){
-        this.pheromons = 0;
+    public Cell(int x, int y){
+        this(x, y, 0);
     }    
     
-    public Cell(double pheromons){
+    public Cell(int x, int y, double pheromons){
         this.pheromons = pheromons;
+        this.x = x;
+        this.y = y;
     }
     
     public double quantityPheromons(){
@@ -25,8 +28,7 @@ public abstract class Cell {
         this.pheromons = quantity;
     }
 
-    @Override
-    public String toString() {
+    public String getChar() {
         String cellType = "-1";
         if(this instanceof Empty)
             cellType = " ";
@@ -37,5 +39,10 @@ public abstract class Cell {
         if(this instanceof Obstacle)
             cellType = "#";
         return cellType;    
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Cell: (%d,%d) %f", x, y, pheromons);
     }
 }

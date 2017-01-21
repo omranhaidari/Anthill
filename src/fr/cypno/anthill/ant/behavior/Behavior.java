@@ -25,9 +25,10 @@ public abstract class Behavior {
         for (int i = 0; i < size; i++) {
             cells[i] = new Cell[size];
             for (int j = 0; j < size; j++) {
-                cells[i][j] = new Empty(56);
+                cells[i][j] = new Empty(0, 0, 56);
             }
         }
+
         computeProbabilities(cells);
         int probaMax = 0;
         for (Probability p : probabilities)

@@ -2,11 +2,11 @@ package fr.cypno.anthill.map;
 
 public class Obstacle extends Cell{
     
-    public Obstacle() {
-        super();
+    public Obstacle(int x, int y) {
+        this(x, y, 0);
     }
-        
-    public Obstacle(double pheromons) {
-        super(pheromons);
+
+    public Obstacle(int x, int y, double pheromons) {
+        super(x, y, pheromons);
     }
 }

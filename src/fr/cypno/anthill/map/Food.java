@@ -12,10 +12,12 @@ public class Food extends Cell {
         this.quantity = quantity;
     }
 
-    public Food() {
+    public Food(int x, int y) {
+        this(x, y, 0, 0);
     }
 
-    public Food(double quantity) {
+    public Food(int x, int y, double pheromons, double quantity) {
+        super(y, x, 0);
         this.quantity = quantity;
     }
 

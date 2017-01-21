@@ -1,17 +1,25 @@
 package fr.cypno.anthill.ant;
 
+import fr.cypno.anthill.ant.behavior.Behavior;
 import fr.cypno.anthill.ant.exceptions.*;
 import fr.cypno.anthill.map.*;
-import java.util.*;
 
 public class Ant {
 
     private double foodCapacity;
     private double pheromons;
-    private List<Cell> cells;
     private double food;
     private Cell position;
     private int direction;
+    private Behavior behavior;
+    
+    public Behavior getBehavior() {
+        return behavior;
+    }
+
+    public void setBehavior(Behavior behavior) {
+        this.behavior = behavior;
+    }
 
     public int getDirection() {
         return direction;
@@ -21,7 +29,6 @@ public class Ant {
         this.direction = direction;
     }
 
-    
     public Cell getPosition() {
         return position;
     }
@@ -46,10 +53,6 @@ public class Ant {
         this.pheromons = pheromons;
     }
 
-    public List<Cell> getCells() {
-        return cells;
-    }
-
     public double getFood() {
         return food;
     }
@@ -58,19 +61,21 @@ public class Ant {
         this.food = food;
     }
 
-    public Ant(double foodCapacity, double pheromons, int d) {
+    public Ant(double foodCapacity, double pheromons, int direction) {
         this.foodCapacity = foodCapacity;
         this.pheromons = pheromons;
-        this.cells = new ArrayList<Cell>();
-        this.food = 0.0;
-        this.direction = d;
+        this.food = 0;
+        this.direction = direction;
+        this.behavior = null;
     }
-    
+
     /**
-     * Methode permettant de recuperer la nourriture sur la cellule courante
-     * La fourmi prend de la nourriture jusqu'à se qu'elle n'est plus de place (foodCapacity)
-     * Cette methode diminue la quantite de nourriture de la cellule (en fonction de la quantite prise)
-     * @throws NotFoodCellException 
+     * Méthode permettant de recuperer la nourriture sur la cellule courante La
+     * fourmi prend de la nourriture jusqu'à se qu'elle n'est plus de place
+     * (foodCapacity) Cette methode diminue la quantite de nourriture de la
+     * cellule (en fonction de la quantite prise)
+     *
+     * @throws NotFoodCellException
      */
     public void pullFood() throws NotFoodCellException {
         if (!(position instanceof Food)) {
@@ -84,12 +89,14 @@ public class Ant {
         } else {
             this.food += cellQuantity;
         }
-        ((Food)position).setQuantity(cellQuantity - this.food + oldQuantity);
+        ((Food) position).setQuantity(cellQuantity - this.food + oldQuantity);
     }
 
     /**
-     * Methode permettant de deposer la nourriture sur la cellule courante (fourmilière)
-     * @throws NotAnthillCellException 
+     * Methode permettant de deposer la nourriture sur la cellule courante
+     * (fourmilière)
+     *
+     * @throws NotAnthillCellException
      */
     public void pushFood() throws NotAnthillCellException {
         if (!(position instanceof Anthill)) {
@@ -98,7 +105,7 @@ public class Ant {
         ((Anthill) position).addFood(this.food);
         this.food = 0.0;
     }
-    
+
     public void dropPheromons() {
         this.position.setPheromons(this.position.quantityPheromons() + this.pheromons);
     }
