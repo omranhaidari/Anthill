@@ -8,8 +8,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Test {
-
     public static void main(String[] args) {
+        try{
+            Map map = new Map();
+            map.afficher();
+        }catch(Exception e){
+            e.printStackTrace();
+    }
+        
         try {
             Anthill ah = new Anthill();
             Ant a = new Ant(25, 10,4);

@@ -8,6 +8,10 @@ public class Anthill extends Cell{
         
     }
     
+    public Anthill(){
+        this.quantity = 0;
+    }
+    
     public Anthill(double quantity){
         this.foodQuantity = quantity;
     }
