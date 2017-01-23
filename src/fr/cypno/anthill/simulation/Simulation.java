@@ -4,6 +4,7 @@ import fr.cypno.anthill.Resources;
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.ant.behavior.BasicBehavior;
 import fr.cypno.anthill.map.Cell;
+import fr.cypno.anthill.map.Food;
 import fr.cypno.anthill.map.Map;
 import fr.cypno.anthill.map.Obstacle;
 import java.io.File;
@@ -38,8 +39,17 @@ public final class Simulation {
     public void update() {
         for (Ant a : ants) {
             Cell dest = a.getBehavior().computeDestination();
-            if (dest != null && !(dest instanceof Obstacle))
+            if (dest != null && !(dest instanceof Obstacle)){
                 a.moveTo(dest);
+                if (dest instanceof Food){
+                     a.dropPheromons();
+                     
+                }
+               /* En attente, on a besoin de savoir si la fourmi cherche de la nourriture ou rentre à la fourmilière 
+                if(Tarjette == Anthill)
+                    a.dropPheromons();
+                */
+            }
         }
     }
 
