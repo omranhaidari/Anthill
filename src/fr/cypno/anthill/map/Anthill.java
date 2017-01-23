@@ -24,4 +24,9 @@ public class Anthill extends Cell{
     public void addFood(double quantity) {
         setQuantity(getQuantity() + quantity);
     }
+
+    @Override
+    public String getChar() {
+        return "x";
+    }
 }

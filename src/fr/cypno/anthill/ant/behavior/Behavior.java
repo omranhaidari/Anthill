@@ -1,8 +1,8 @@
 package fr.cypno.anthill.ant.behavior;
 
+import fr.cypno.anthill.Resources;
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.map.Cell;
-import fr.cypno.anthill.map.Empty;
 import java.util.ArrayList;
 import java.util.Random;
  /**
@@ -19,22 +19,14 @@ public abstract class Behavior {
     }
     
     public Cell computeDestination() {
-        // Récupérer les cellules voisines
-        int size = 3;
-        Cell[][] cells = new Cell[size][];
-        for (int i = 0; i < size; i++) {
-            cells[i] = new Cell[size];
-            for (int j = 0; j < size; j++) {
-                cells[i][j] = new Empty(0, 0, 56);
-            }
-        }
-
+        int x = ant.getPosition().getX();
+        int y = ant.getPosition().getY();
+        Cell[][] cells = Resources.getMap().getMatrix(x-1, y-1, x+1, y+1);
         computeProbabilities(cells);
         int probaMax = 0;
         for (Probability p : probabilities)
             probaMax += p.getProbability();
         int r = new Random().nextInt(probaMax);
-        System.out.println(r); 
         for (Probability p : probabilities) {
             r -= p.getProbability();
             if (r <= 0)
@@ -44,6 +36,6 @@ public abstract class Behavior {
     }
     
     protected void computeProbabilities(Cell[][] cells) {
-        
+        this.probabilities.clear();
     }
 }

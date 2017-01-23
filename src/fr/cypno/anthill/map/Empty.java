@@ -9,4 +9,9 @@ public class Empty extends Cell{
     public Empty(int x, int y, double pheromons) {
         super(x, y, pheromons);
     }
+
+    @Override
+    public String getChar() {
+        return " ";
+    }
 }

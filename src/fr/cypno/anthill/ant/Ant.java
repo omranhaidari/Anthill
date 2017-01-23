@@ -69,6 +69,26 @@ public class Ant {
         this.behavior = null;
     }
 
+    public void moveTo(Cell dest) {
+        if (dest.getX() < position.getX() && dest.getY() == position.getY())
+            direction = 0;
+        if (dest.getX() < position.getX() && dest.getY() > position.getY())
+            direction = 1;
+        if (dest.getX() == position.getX() && dest.getY() > position.getY())
+            direction = 2;
+        if (dest.getX() > position.getX() && dest.getY() > position.getY())
+            direction = 3;
+        if (dest.getX() > position.getX() && dest.getY() == position.getY())
+            direction = 4;
+        if (dest.getX() > position.getX() && dest.getY() < position.getY())
+            direction = 5;
+        if (dest.getX() == position.getX() && dest.getY() < position.getY())
+            direction = 6;
+        if (dest.getX() < position.getX() && dest.getY() < position.getY())
+            direction = 7;
+        position = dest;
+    }
+
     /**
      * Méthode permettant de recuperer la nourriture sur la cellule courante La
      * fourmi prend de la nourriture jusqu'à se qu'elle n'est plus de place
@@ -107,6 +127,6 @@ public class Ant {
     }
 
     public void dropPheromons() {
-        this.position.setPheromons(this.position.quantityPheromons() + this.pheromons);
+        this.position.setPheromons(this.position.getPheromonQuantity() + this.pheromons);
     }
 }

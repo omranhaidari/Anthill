@@ -28,4 +28,9 @@ public class Food extends Cell {
         }
         return flag;
     }
+
+    @Override
+    public String getChar() {
+        return "o";
+    }
 }

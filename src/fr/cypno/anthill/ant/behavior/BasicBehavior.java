@@ -7,13 +7,16 @@ public class BasicBehavior extends Behavior {
     public BasicBehavior(Ant ant) {
         super(ant);
         this.weights = new int[] { 50, 20, 10, 5, 0, 5, 10, 20 };
+        //this.weights = new int[] { 100, 0, 0, 0, 0, 0, 0, 0 };
     }
 
     @Override
     protected void computeProbabilities(Cell[][] cells) {
+        super.computeProbabilities(cells);
         int direction = ant.getDirection();
         for (int i = 0; i < 8; i++) {
-            probabilities.add(new Probability(weights[i], findCell(cells, (direction + i) % 8)));
+            Cell cell = findCell(cells, (direction + i) % 8);
+            probabilities.add(new Probability(weights[i] + (int) cell.getPheromonQuantity(), cell));
         }
     }
     

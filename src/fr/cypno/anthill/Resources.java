@@ -13,6 +13,10 @@ import fr.cypno.anthill.map.Map;
  */
 public class Resources {
     private static Map map = null;
+    
+    public static Map getMap() {
+        return map;
+    }
 
     public static void init(Map map) {
         Resources.map = map;

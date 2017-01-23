@@ -1,8 +1,10 @@
 package fr.cypno.anthill.map;
 
 import fr.cypno.anthill.map.exceptions.InvalidMapFile;
+import fr.cypno.anthill.ant.Ant;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Map {
@@ -12,6 +14,12 @@ public class Map {
     private int numberOfSources;
     private int[] quantityPerSource;
     private Cell[][] map;
+
+    private Anthill anthill;
+
+    public Anthill getAnthill() {
+        return anthill;
+    }
 
     public Map(String filePath) throws InvalidMapFile, FileNotFoundException {
         buildMap(filePath);
@@ -70,7 +78,8 @@ public class Map {
                             }
                             break;
                         case 'x':
-                            this.map[i][j] = new Anthill(i, j);
+                            this.anthill = new Anthill(i, j);
+                            this.map[i][j] = this.anthill;
                             if (++anthillCount > 1) {
                                 throw new InvalidMapFile("Too many anthills.");
                             }
@@ -111,10 +120,26 @@ public class Map {
     }
 
     public static String printCellMatrix(Cell[][] matrix) {
+        return printCellMatrix(matrix, null);
+    }
+
+    public String printCellMatrix(ArrayList<Ant> ants) {
+        return printCellMatrix(this.map, ants);
+    }
+
+    public static String printCellMatrix(Cell[][] matrix, ArrayList<Ant> ants) {
         String s = "";
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                s += matrix[i][j].getChar();
+                int nb = 0;
+                if (ants != null)
+                    for (Ant a : ants)
+                        if (a.getPosition().getX() == i && a.getPosition().getY() == j)
+                            nb++;
+                if (nb != 0)
+                    s += "" + nb;
+                else
+                    s += matrix[i][j].getChar();
             }
             s += "\n";
         }
@@ -122,14 +147,14 @@ public class Map {
     }
 
     public Cell[][] getMatrix(int c1, int l1, int c2, int l2) {
-        Cell[][] matrix = new Cell[c1 - c2][];
-        for (int c = 0; c < c1 - c2; c++) {
-            matrix[c] = new Cell[l1 - l2];
-            for (int l = 0; l < l1 - l2; l++) {
+        Cell[][] matrix = new Cell[c2 - c1 + 1][];
+        for (int c = c1; c <= c2; c++) {
+            matrix[c - c1] = new Cell[l2 - l1 + 1];
+            for (int l = l1; l <= l2; l++) {
                 if (c < 0 || c >= map.length || l < 0 || l >= map[c].length)
-                    matrix[c][l] = null;
+                    matrix[c -c1][l - l1] = null;
                 else
-                    matrix[c][l] = map[c][l];
+                    matrix[c -c1][l - l1] = map[c][l];
             }
         }
         return matrix;
