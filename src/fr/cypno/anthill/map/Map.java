@@ -16,6 +16,7 @@ public class Map {
     private Cell[][] map;
 
     private Anthill anthill;
+    public int cellNb;
     
     public Cell[][] getMap() {
         return map;
