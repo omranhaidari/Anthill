@@ -38,4 +38,11 @@ public abstract class Cell {
     public String toString() {
         return String.format("Cell: (%d,%d) %f", x, y, pheromonQuantity);
     }
+    
+    public void reducePheromons(double value) {
+        if(this.pheromonQuantity > value)
+            this.pheromonQuantity -= value;
+        else 
+            this.pheromonQuantity = 0.0;
+    }
 }

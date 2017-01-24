@@ -16,7 +16,11 @@ public class Map {
     private Cell[][] map;
 
     private Anthill anthill;
-
+    
+    public Cell[][] getMap() {
+        return map;
+    }
+    
     public Anthill getAnthill() {
         return anthill;
     }

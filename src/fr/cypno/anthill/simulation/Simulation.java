@@ -3,6 +3,7 @@ package fr.cypno.anthill.simulation;
 import fr.cypno.anthill.Resources;
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.ant.behavior.BasicBehavior;
+import fr.cypno.anthill.map.Cell;
 import fr.cypno.anthill.map.Map;
 import java.io.File;
 import java.util.ArrayList;
@@ -34,9 +35,15 @@ public final class Simulation {
         }
     }
 
-    public void update() {
+    public void update(Double value) {
         for (Ant a : ants) {
             a.update();
+        }
+        Cell[][] cells = map.getMap();
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                cells[i][j].reducePheromons(value);
+            }
         }
     }
 

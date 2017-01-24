@@ -11,23 +11,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class BasicBehavior extends Behavior {
+
     private boolean returnHome;
     private Stack<Cell> cells;
-    
+
     public BasicBehavior(Ant ant) {
         super(ant);
         this.returnHome = false;
         this.cells = new Stack<>();
-        this.weights = new int[] { 50, 20, 10, 5, 0, 5, 10, 20 };
+        this.weights = new int[]{50, 20, 10, 5, 0, 5, 10, 20};
         //this.weights = new int[] { 100, 0, 0, 0, 0, 0, 0, 0 };
     }
 
     @Override
     public Cell computeDestination() {
-        if(!returnHome) {
-            return super.computeDestination(); 
-            }
-        else {
+        if (!returnHome) {
+            return super.computeDestination();
+        } else {
             System.out.println("Returning home");
             return this.cells.pop();
         }
@@ -42,7 +42,7 @@ public class BasicBehavior extends Behavior {
             probabilities.add(new Probability(weights[i] + (int) cell.getPheromonQuantity(), cell));
         }
     }
-    
+
     private Cell findCell(Cell[][] cells, int direction) {
         switch (direction) {
             case 0:
@@ -66,10 +66,11 @@ public class BasicBehavior extends Behavior {
 
     @Override
     public void moveTo(Cell dest) {
-        if (!returnHome)
+        if (!returnHome) {
             this.cells.push(ant.getPosition());
+        }
         super.moveTo(dest);
-        if(!returnHome && this.ant.getPosition() instanceof Food) {
+        if (!returnHome && this.ant.getPosition() instanceof Food) {
             try {
                 this.ant.pullFood();
                 this.returnHome = true;
@@ -77,14 +78,18 @@ public class BasicBehavior extends Behavior {
                 ex.printStackTrace();
             }
         }
-        if(returnHome && this.ant.getPosition() instanceof Anthill) {
-            try {
-                this.ant.pushFood();
-                this.returnHome = false;
-                this.cells.clear();
-            } catch (NotAnthillCellException ex) {
-                ex.printStackTrace();
+        if (returnHome) {
+            if (this.ant.getPosition() instanceof Anthill) {
+                try {
+                    this.ant.pushFood();
+                    this.returnHome = false;
+                    this.cells.clear();
+                } catch (NotAnthillCellException ex) {
+                    ex.printStackTrace();
+                }
             }
+            else 
+                this.ant.dropPheromons();
         }
     }
 }
