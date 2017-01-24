@@ -32,9 +32,6 @@ public class BasicBehavior extends Behavior {
         }
     }
 
-    
-    
-    
     @Override
     protected void computeProbabilities(Cell[][] cells) {
         super.computeProbabilities(cells);
@@ -73,7 +70,7 @@ public class BasicBehavior extends Behavior {
         if(!returnHome && this.ant.getPosition() instanceof Food) {
             try {
                 this.ant.pullFood();
-                //this.returnHome = true;
+                this.returnHome = true;
             } catch (NotFoodCellException ex) {
                 ex.printStackTrace();
             }

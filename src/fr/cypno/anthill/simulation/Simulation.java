@@ -3,10 +3,7 @@ package fr.cypno.anthill.simulation;
 import fr.cypno.anthill.Resources;
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.ant.behavior.BasicBehavior;
-import fr.cypno.anthill.map.Cell;
-import fr.cypno.anthill.map.Food;
 import fr.cypno.anthill.map.Map;
-import fr.cypno.anthill.map.Obstacle;
 import java.io.File;
 import java.util.ArrayList;
 

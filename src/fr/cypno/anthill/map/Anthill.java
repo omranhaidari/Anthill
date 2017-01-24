@@ -27,6 +27,6 @@ public class Anthill extends Cell{
 
     @Override
     public String getChar() {
-        return "x";
+        return "\u001B[34mx\u001B[0m";
     }
 }

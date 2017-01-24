@@ -137,7 +137,7 @@ public class Map {
                         if (a.getPosition().getX() == i && a.getPosition().getY() == j)
                             nb++;
                 if (nb != 0)
-                    s += "" + nb;
+                    s += "\u001B[31m" + nb + "\u001B[0m";
                 else
                     s += matrix[i][j].getChar();
             }

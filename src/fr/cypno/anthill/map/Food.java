@@ -17,7 +17,7 @@ public class Food extends Cell {
     }
 
     public Food(int x, int y, double pheromons, double quantity) {
-        super(y, x, 0);
+        super(x, y, 0);
         this.quantity = quantity;
     }
 
@@ -31,6 +31,6 @@ public class Food extends Cell {
 
     @Override
     public String getChar() {
-        return "o";
+        return "\u001B[31mo\u001B[0m";
     }
 }
