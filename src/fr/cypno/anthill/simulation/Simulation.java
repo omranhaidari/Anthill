@@ -11,9 +11,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 public final class Simulation {
+
     private ArrayList<Ant> ants;
     private Map map;
-    
+
     public Simulation(int nbAnts) {
         this.ants = new ArrayList<>();
         try {
@@ -27,7 +28,7 @@ public final class Simulation {
     public void initialize(int nbAnts) throws Exception {
         this.map = new Map(System.getProperty("user.dir") + File.separator + "ressources" + File.separator + "maps" + File.separator + "map.txt");
         Resources.init(map);
-        
+
         for (int i = 0; i < nbAnts; i++) {
             Ant a = new Ant(20, 20, 0);
             a.setPosition(map.getAnthill());
@@ -38,18 +39,7 @@ public final class Simulation {
 
     public void update() {
         for (Ant a : ants) {
-            Cell dest = a.getBehavior().computeDestination();
-            if (dest != null && !(dest instanceof Obstacle)){
-                a.moveTo(dest);
-                if (dest instanceof Food){
-                     a.dropPheromons();
-                     
-                }
-               /* En attente, on a besoin de savoir si la fourmi cherche de la nourriture ou rentre à la fourmilière 
-                if(Tarjette == Anthill)
-                    a.dropPheromons();
-                */
-            }
+            a.update();
         }
     }
 

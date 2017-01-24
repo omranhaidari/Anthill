@@ -147,14 +147,14 @@ public class Map {
     }
 
     public Cell[][] getMatrix(int c1, int l1, int c2, int l2) {
-        Cell[][] matrix = new Cell[c2 - c1 + 1][];
-        for (int c = c1; c <= c2; c++) {
-            matrix[c - c1] = new Cell[l2 - l1 + 1];
-            for (int l = l1; l <= l2; l++) {
-                if (c < 0 || c >= map.length || l < 0 || l >= map[c].length)
-                    matrix[c -c1][l - l1] = null;
+        Cell[][] matrix = new Cell[l2 - l1 + 1][];
+        for (int l = l1; l <= l2; l++) {
+            matrix[l - l1] = new Cell[c2 - c1 + 1];
+            for (int c = c1; c <= c2; c++) {
+                if (l < 0 || l >= map.length || c < 0 || c >= map[l].length)
+                    matrix[l -l1][c - c1] = null;
                 else
-                    matrix[c -c1][l - l1] = map[c][l];
+                    matrix[l -l1][c - c1] = map[l][c];
             }
         }
         return matrix;

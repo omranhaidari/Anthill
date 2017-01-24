@@ -1,15 +1,40 @@
 package fr.cypno.anthill.ant.behavior;
 
 import fr.cypno.anthill.ant.Ant;
+import fr.cypno.anthill.ant.exceptions.NotAnthillCellException;
+import fr.cypno.anthill.ant.exceptions.NotFoodCellException;
+import fr.cypno.anthill.map.Anthill;
 import fr.cypno.anthill.map.Cell;
+import fr.cypno.anthill.map.Food;
+import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BasicBehavior extends Behavior {
+    private boolean returnHome;
+    private Stack<Cell> cells;
+    
     public BasicBehavior(Ant ant) {
         super(ant);
+        this.returnHome = false;
+        this.cells = new Stack<>();
         this.weights = new int[] { 50, 20, 10, 5, 0, 5, 10, 20 };
         //this.weights = new int[] { 100, 0, 0, 0, 0, 0, 0, 0 };
     }
 
+    @Override
+    public Cell computeDestination() {
+        if(!returnHome) {
+            return super.computeDestination(); 
+            }
+        else {
+            return this.cells.pop();
+        }
+    }
+
+    
+    
+    
     @Override
     protected void computeProbabilities(Cell[][] cells) {
         super.computeProbabilities(cells);
@@ -40,4 +65,28 @@ public class BasicBehavior extends Behavior {
                 return cells[0][0];
         }
     }
+
+    @Override
+    public void moveTo(Cell dest) {
+        super.moveTo(dest);
+        this.cells.push(dest);
+        if(!returnHome && this.ant.getPosition() instanceof Food) {
+            try {
+                this.ant.pullFood();
+                //this.returnHome = true;
+            } catch (NotFoodCellException ex) {
+                ex.printStackTrace();
+            }
+        }
+        if(returnHome && this.ant.getPosition() instanceof Anthill) {
+            try {
+                this.ant.pushFood();
+                this.returnHome = false;
+            } catch (NotAnthillCellException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    
 }

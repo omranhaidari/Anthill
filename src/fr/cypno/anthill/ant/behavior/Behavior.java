@@ -38,4 +38,8 @@ public abstract class Behavior {
     protected void computeProbabilities(Cell[][] cells) {
         this.probabilities.clear();
     }
+    
+    public void moveTo(Cell dest) {
+        this.ant.moveTo(dest);
+    }
 }

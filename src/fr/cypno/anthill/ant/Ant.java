@@ -12,7 +12,7 @@ public class Ant {
     private Cell position;
     private int direction;
     private Behavior behavior;
-    
+
     public Behavior getBehavior() {
         return behavior;
     }
@@ -70,22 +70,30 @@ public class Ant {
     }
 
     public void moveTo(Cell dest) {
-        if (dest.getX() < position.getX() && dest.getY() == position.getY())
+        if (dest.getX() < position.getX() && dest.getY() == position.getY()) {
             direction = 0;
-        if (dest.getX() < position.getX() && dest.getY() > position.getY())
+        }
+        if (dest.getX() < position.getX() && dest.getY() > position.getY()) {
             direction = 1;
-        if (dest.getX() == position.getX() && dest.getY() > position.getY())
+        }
+        if (dest.getX() == position.getX() && dest.getY() > position.getY()) {
             direction = 2;
-        if (dest.getX() > position.getX() && dest.getY() > position.getY())
+        }
+        if (dest.getX() > position.getX() && dest.getY() > position.getY()) {
             direction = 3;
-        if (dest.getX() > position.getX() && dest.getY() == position.getY())
+        }
+        if (dest.getX() > position.getX() && dest.getY() == position.getY()) {
             direction = 4;
-        if (dest.getX() > position.getX() && dest.getY() < position.getY())
+        }
+        if (dest.getX() > position.getX() && dest.getY() < position.getY()) {
             direction = 5;
-        if (dest.getX() == position.getX() && dest.getY() < position.getY())
+        }
+        if (dest.getX() == position.getX() && dest.getY() < position.getY()) {
             direction = 6;
-        if (dest.getX() < position.getX() && dest.getY() < position.getY())
+        }
+        if (dest.getX() < position.getX() && dest.getY() < position.getY()) {
             direction = 7;
+        }
         position = dest;
     }
 
@@ -128,5 +136,12 @@ public class Ant {
 
     public void dropPheromons() {
         this.position.setPheromons(this.position.getPheromonQuantity() + this.pheromons);
+    }
+
+    public void update() {
+        Cell dest = this.behavior.computeDestination();
+        if (dest != null && !(dest instanceof Obstacle)) {
+            this.getBehavior().moveTo(dest);
+        }
     }
 }
