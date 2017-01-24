@@ -94,6 +94,7 @@ public class Ant {
         if (dest.getX() < position.getX() && dest.getY() < position.getY()) {
             direction = 7;
         }
+        System.out.println(position + " -> " + dest);
         position = dest;
     }
 
