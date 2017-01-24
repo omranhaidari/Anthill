@@ -28,6 +28,7 @@ public class BasicBehavior extends Behavior {
             return super.computeDestination(); 
             }
         else {
+            System.out.println("Returning home");
             return this.cells.pop();
         }
     }
@@ -65,8 +66,9 @@ public class BasicBehavior extends Behavior {
 
     @Override
     public void moveTo(Cell dest) {
+        if (!returnHome)
+            this.cells.push(ant.getPosition());
         super.moveTo(dest);
-        this.cells.push(dest);
         if(!returnHome && this.ant.getPosition() instanceof Food) {
             try {
                 this.ant.pullFood();
@@ -79,11 +81,10 @@ public class BasicBehavior extends Behavior {
             try {
                 this.ant.pushFood();
                 this.returnHome = false;
+                this.cells.clear();
             } catch (NotAnthillCellException ex) {
                 ex.printStackTrace();
             }
         }
     }
-    
-    
 }
