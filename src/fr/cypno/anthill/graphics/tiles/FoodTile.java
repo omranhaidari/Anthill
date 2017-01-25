@@ -6,9 +6,12 @@
 package fr.cypno.anthill.graphics.tiles;
 
 import fr.cypno.anthill.map.Food;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -23,11 +26,16 @@ public class FoodTile implements Tile{
 
     @Override
     public Node draw(int cellSize) {
-        Rectangle rec = new Rectangle(
-                food.getY() * cellSize + food.getY(),
-                food.getX() * cellSize + food.getX(),
-                cellSize, cellSize);
+        Group group = new Group();
+        group.setTranslateX(food.getY() * cellSize + food.getY());
+        group.setTranslateY(food.getX() * cellSize + food.getX());
+        Rectangle rec = new Rectangle(0, 0, cellSize, cellSize);
         rec.setFill(Color.BLUE);
-        return rec;
+        Text text = new Text(0, cellSize / 2, "" + food.getQuantity());
+        text.setFont(new Font(10));
+        text.setFill(Color.BLACK);
+        group.getChildren().add(rec);
+        group.getChildren().add(text);
+        return group;
     }
 }

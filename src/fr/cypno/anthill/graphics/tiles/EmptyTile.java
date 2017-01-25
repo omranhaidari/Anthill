@@ -21,7 +21,7 @@ public class EmptyTile implements Tile {
         Rectangle rec = new Rectangle(0, 0, cellSize, cellSize);
         rec.setFill(Color.WHITE);
         Rectangle rec2 = new Rectangle(0, 0, cellSize, cellSize);
-        rec2.setFill(Color.rgb(255, 0, 0, Math.min(empty.getPheromonQuantity() / 60, 1)));
+        rec2.setFill(Color.rgb(255, 0, 0, Math.min(empty.getPheromonQuantity() / 200, 1)));
         group.getChildren().add(rec);
         group.getChildren().add(rec2);
         return group;
