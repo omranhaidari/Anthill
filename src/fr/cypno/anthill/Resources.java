@@ -1,24 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.cypno.anthill;
 
+import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.map.Map;
+import fr.cypno.anthill.simulation.Simulation;
+import java.util.ArrayList;
 
-/**
- *
- * @author captaincat
- */
 public class Resources {
-    private static Map map = null;
-    
+    private static Simulation simulation = null;
+
     public static Map getMap() {
-        return map;
+        return simulation.getMap();
     }
 
-    public static void init(Map map) {
-        Resources.map = map;
+    public static ArrayList<Ant> getAnts() {
+        return simulation.getAnts();
+    }
+
+    public static Simulation getSimulation() {
+        return simulation;
+    }
+
+    public static void init(int nbAnts) {
+        Resources.simulation = new Simulation(nbAnts);
     }
 }

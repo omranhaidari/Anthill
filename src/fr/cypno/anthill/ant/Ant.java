@@ -5,7 +5,6 @@ import fr.cypno.anthill.ant.exceptions.*;
 import fr.cypno.anthill.map.*;
 
 public class Ant {
-
     private double foodCapacity;
     private double pheromons;
     private double food;
@@ -59,6 +58,14 @@ public class Ant {
 
     public void setFood(double food) {
         this.food = food;
+    }
+
+    public int getX() {
+        return position.getX();
+    }
+
+    public int getY() {
+        return position.getY();
     }
 
     public Ant(double foodCapacity, double pheromons, int direction) {

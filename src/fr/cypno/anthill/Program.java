@@ -1,23 +1,10 @@
-package fr.cypno.anthill.test;
+package fr.cypno.anthill;
 
-import fr.cypno.anthill.simulation.Simulation;
+import fr.cypno.anthill.graphics.Frame;
 
-public class Test {
-
+public class Program {
     public static void main(String[] args) {
-        Simulation sim = new Simulation(1);
-        double mapQuantity = sim.getMap().foodMapQuantity(sim.getMap().getMap());
-        for (int i = 0; i <= 1000; i++) {
-            if(sim.getMap().getAnthill().isFull(mapQuantity)) {
-                
-                break;
-            }
-            sim.update(0.5);
-            sim.printMap();
-            System.out.println("-------------\nLoop: " + i);
-            System.out.println("Quantité nourriture dans Anthill : " + sim.getMap().getAnthill().getQuantity());
-            System.out.println("Quantité nourriture hors Anthill : " + sim.getMap().foodMapQuantity(sim.getMap().getMap()));
-        }
-        System.out.println("-------------\nSimulation finie ! \n-------------");
+        Resources.init(5);
+        Frame.launchFrame(args, 50);
     }
 }

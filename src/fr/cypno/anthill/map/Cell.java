@@ -1,5 +1,6 @@
 package fr.cypno.anthill.map;
 
+
 public abstract class Cell {
     private double pheromonQuantity;
     private int x, y;

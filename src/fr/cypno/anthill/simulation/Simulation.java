@@ -1,6 +1,5 @@
 package fr.cypno.anthill.simulation;
 
-import fr.cypno.anthill.Resources;
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.ant.behavior.BasicBehavior;
 import fr.cypno.anthill.map.Cell;
@@ -19,6 +18,10 @@ public final class Simulation {
         return this.map;
     }
 
+    public ArrayList<Ant> getAnts() {
+        return ants;
+    }
+
     public Simulation(int nbAnts) {
         this.ants = new ArrayList<>();
         try {
@@ -31,8 +34,6 @@ public final class Simulation {
 
     public void initialize(int nbAnts) throws Exception {
         this.map = new Map(System.getProperty("user.dir") + File.separator + "ressources" + File.separator + "maps" + File.separator + "map.txt");
-        Resources.init(map);
-
         for (int i = 0; i < nbAnts; i++) {
             Ant a = new Ant(20, 20, 0);
             a.setPosition(map.getAnthill());
