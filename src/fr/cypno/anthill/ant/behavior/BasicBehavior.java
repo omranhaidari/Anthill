@@ -20,7 +20,7 @@ public class BasicBehavior extends Behavior {
         super(ant);
         this.returnHome = false;
         this.cells = new Stack<>();
-        this.weights = new int[]{50, 20, 10, 5, 0, 5, 10, 20};
+        this.weights = new int[]{50, 20, 10, 5, 0, 5, 10, 20, 100};
         //this.weights = new int[] { 100, 0, 0, 0, 0, 0, 0, 0 };
     }
 
@@ -36,7 +36,6 @@ public class BasicBehavior extends Behavior {
 
     @Override
     protected void computeProbabilities(Cell[][] cells) {
-        super.computeProbabilities(cells);
         int direction = ant.getDirection();
         for (int i = 0; i < 8; i++) {
             Cell cell = findCell(cells, (direction + i) % 8);
@@ -44,7 +43,7 @@ public class BasicBehavior extends Behavior {
         }
     }
 
-    private Cell findCell(Cell[][] cells, int direction) {
+    protected Cell findCell(Cell[][] cells, int direction) {
         switch (direction) {
             case 0:
                 return cells[0][1];

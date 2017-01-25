@@ -22,6 +22,7 @@ public abstract class Behavior {
         int x = ant.getPosition().getX();
         int y = ant.getPosition().getY();
         Cell[][] cells = map.getMatrix(x-1, y-1, x+1, y+1);
+        clearProbabilities();
         computeProbabilities(cells);
         int probaMax = 0;
         for (Probability p : probabilities)
@@ -36,9 +37,12 @@ public abstract class Behavior {
     }
     
     protected void computeProbabilities(Cell[][] cells) {
+    }
+
+    protected void clearProbabilities() {
         this.probabilities.clear();
     }
-    
+
     public void moveTo(Cell dest) {
         this.ant.moveTo(dest);
     }
