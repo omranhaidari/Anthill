@@ -28,7 +28,7 @@ public class BasicBehavior extends Behavior {
         if (!returnHome) {
             return super.computeDestination();
         } else {
-            System.out.println("Returning home");
+            //System.out.println("Returning home");
             return this.cells.pop();
         }
     }
