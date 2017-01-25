@@ -2,7 +2,6 @@ package fr.cypno.anthill.simulation;
 
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.ant.behavior.AdvancedBehavior;
-import fr.cypno.anthill.ant.behavior.BasicBehavior;
 import fr.cypno.anthill.graphics.Frame;
 import fr.cypno.anthill.map.Cell;
 import fr.cypno.anthill.map.Empty;
@@ -18,6 +17,8 @@ public final class Simulation implements Runnable {
     private ArrayList<Ant> ants;
     private Map map;
     private Frame frame;
+    private double pheromonDecrease;
+    private long step;
 
     public Map getMap() {
         return this.map;
@@ -31,8 +32,10 @@ public final class Simulation implements Runnable {
         this.frame = frame;
     }
 
-    public Simulation(int nbAnts) {
+    public Simulation(int nbAnts, double pheromonDecrease, long step) {
         this.ants = new ArrayList<>();
+        this.pheromonDecrease = pheromonDecrease;
+        this.step = step;
         this.frame = null;
         try {
             initialize(nbAnts);
@@ -52,14 +55,14 @@ public final class Simulation implements Runnable {
         }
     }
 
-    public void update(Double value) {
+    public void update() {
         for (Ant a : ants) {
             a.update();
         }
         Cell[][] cells = map.getMap();
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j].reducePheromons(value);
+                cells[i][j].reducePheromons(pheromonDecrease);
                 if(cells[i][j] instanceof Food) {
                     if(((Food)cells[i][j]).isEmpty()) 
                         cells[i][j] = new Empty(i,j,cells[i][j].getPheromonQuantity());
@@ -75,12 +78,11 @@ public final class Simulation implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(step);
             } catch (InterruptedException ex) {
-                Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
+                System.exit(0);
             }
-            update(0.5);
-            System.out.println("Simulation rafraichie");
+            update();
             frame.notifyFrame();
         }
     }

@@ -4,9 +4,6 @@ import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.graphics.tiles.*;
 import fr.cypno.anthill.map.*;
 import fr.cypno.anthill.simulation.Simulation;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -21,9 +18,9 @@ public class Frame extends Application {
     private Stage stage;
     private Thread thread;
 
-    public static void launchFrame(String[] args, int cellSize, int nbAnts) {
+    public static void launchFrame(String[] args, int cellSize, int nbAnts, double pheromonDecrease, long step) {
         Frame.cellSize = cellSize;
-        Frame.simulation = new Simulation(nbAnts);
+        Frame.simulation = new Simulation(nbAnts, pheromonDecrease, step);
         Frame.map = simulation.getMap();
         launch(args);
     }
@@ -72,6 +69,5 @@ public class Frame extends Application {
 
     public void notifyFrame() {
         Platform.runLater(() -> drawScene(stage));
-        System.out.println("Frame rafraichie !");
     }
 }
