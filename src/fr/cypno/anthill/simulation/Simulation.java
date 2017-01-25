@@ -4,6 +4,8 @@ import fr.cypno.anthill.Resources;
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.ant.behavior.BasicBehavior;
 import fr.cypno.anthill.map.Cell;
+import fr.cypno.anthill.map.Empty;
+import fr.cypno.anthill.map.Food;
 import fr.cypno.anthill.map.Map;
 import java.io.File;
 import java.util.ArrayList;
@@ -12,6 +14,10 @@ public final class Simulation {
 
     private ArrayList<Ant> ants;
     private Map map;
+    
+    public Map getMap() {
+        return this.map;
+    }
 
     public Simulation(int nbAnts) {
         this.ants = new ArrayList<>();
@@ -43,6 +49,10 @@ public final class Simulation {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 cells[i][j].reducePheromons(value);
+                if(cells[i][j] instanceof Food) {
+                    if(((Food)cells[i][j]).isEmpty()) 
+                        cells[i][j] = new Empty(i,j,cells[i][j].getPheromonQuantity());
+                }
             }
         }
     }

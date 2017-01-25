@@ -29,4 +29,11 @@ public class Anthill extends Cell{
     public String getChar() {
         return "\u001B[34mx\u001B[0m";
     }
+    
+    public boolean isFull(double mapQuantity) {
+        if(mapQuantity == this.foodQuantity)
+            return true;
+        else
+            return false;
+    }
 }

@@ -44,7 +44,7 @@ public class Dijkstra {
 	}
 	
 	// mise a jour de la distance, de la priorite, et du predecesseur d'un sommet
-	void update(int y, int x) {
+	/*void update(int y, int x) {
 		int newDist = dist[x] + map.DistEuclid(x,y); // distance euclidienne à implémenter dans une autre classe 
 		if (dist[y] > newDist) {
 			pred[y] = x;
@@ -60,7 +60,7 @@ public class Dijkstra {
 			if (!settled[x]) return x;
 		}
 		return -1;
-	}
+	}*/
 	
 
 	// algorithme de Dijkstra complet

@@ -174,4 +174,16 @@ public class Map {
                 return false;
         return true;
     }
+    
+    public double foodMapQuantity(Cell[][] map) {
+        double mapFoodQuantity = 0.0;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if(map[i][j] instanceof Food) {
+                    mapFoodQuantity += ((Food)map[i][j]).getQuantity();
+                }
+            }
+        }
+        return mapFoodQuantity;
+    }
 }
