@@ -11,6 +11,7 @@ public class Ant {
     private Cell position;
     private int direction;
     private Behavior behavior;
+    private Map map;
 
     public Behavior getBehavior() {
         return behavior;
@@ -68,7 +69,8 @@ public class Ant {
         return position.getY();
     }
 
-    public Ant(double foodCapacity, double pheromons, int direction) {
+    public Ant(Map map, double foodCapacity, double pheromons, int direction) {
+        this.map = map;
         this.foodCapacity = foodCapacity;
         this.pheromons = pheromons;
         this.food = 0;
@@ -147,7 +149,7 @@ public class Ant {
     }
 
     public void update() {
-        Cell dest = this.behavior.computeDestination();
+        Cell dest = this.behavior.computeDestination(map);
         if (dest != null && !(dest instanceof Obstacle)) {
             this.getBehavior().moveTo(dest);
         }

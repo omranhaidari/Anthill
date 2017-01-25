@@ -2,18 +2,22 @@ package fr.cypno.anthill.simulation;
 
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.ant.behavior.BasicBehavior;
+import fr.cypno.anthill.graphics.Frame;
 import fr.cypno.anthill.map.Cell;
 import fr.cypno.anthill.map.Empty;
 import fr.cypno.anthill.map.Food;
 import fr.cypno.anthill.map.Map;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public final class Simulation {
+public final class Simulation implements Runnable {
 
     private ArrayList<Ant> ants;
     private Map map;
-    
+    private Frame frame;
+
     public Map getMap() {
         return this.map;
     }
@@ -22,8 +26,13 @@ public final class Simulation {
         return ants;
     }
 
+    public void setFrame(Frame frame) {
+        this.frame = frame;
+    }
+
     public Simulation(int nbAnts) {
         this.ants = new ArrayList<>();
+        this.frame = null;
         try {
             initialize(nbAnts);
         } catch (Exception ex) {
@@ -35,7 +44,7 @@ public final class Simulation {
     public void initialize(int nbAnts) throws Exception {
         this.map = new Map(System.getProperty("user.dir") + File.separator + "ressources" + File.separator + "maps" + File.separator + "map.txt");
         for (int i = 0; i < nbAnts; i++) {
-            Ant a = new Ant(20, 20, 0);
+            Ant a = new Ant(map, 20, 20, 0);
             a.setPosition(map.getAnthill());
             a.setBehavior(new BasicBehavior(a));
             ants.add(a);
@@ -60,5 +69,18 @@ public final class Simulation {
 
     public void printMap() {
         System.out.println(map.printCellMatrix(ants));
+    }
+
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Simulation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            update(0.5);
+            System.out.println("Simulation rafraichie");
+            frame.notifyFrame();
+        }
     }
 }

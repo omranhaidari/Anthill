@@ -1,8 +1,8 @@
 package fr.cypno.anthill.ant.behavior;
 
-import fr.cypno.anthill.Resources;
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.map.Cell;
+import fr.cypno.anthill.map.Map;
 import java.util.ArrayList;
 import java.util.Random;
  /**
@@ -18,10 +18,10 @@ public abstract class Behavior {
         this.probabilities = new ArrayList<>();
     }
     
-    public Cell computeDestination() {
+    public Cell computeDestination(Map map) {
         int x = ant.getPosition().getX();
         int y = ant.getPosition().getY();
-        Cell[][] cells = Resources.getMap().getMatrix(x-1, y-1, x+1, y+1);
+        Cell[][] cells = map.getMatrix(x-1, y-1, x+1, y+1);
         computeProbabilities(cells);
         int probaMax = 0;
         for (Probability p : probabilities)

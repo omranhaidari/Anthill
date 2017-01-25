@@ -4,7 +4,6 @@ import fr.cypno.anthill.graphics.Frame;
 
 public class Program {
     public static void main(String[] args) {
-        Resources.init(5);
-        Frame.launchFrame(args, 50);
+        Frame.launchFrame(args, 50, 5);
     }
 }

@@ -6,6 +6,7 @@ import fr.cypno.anthill.ant.exceptions.NotFoodCellException;
 import fr.cypno.anthill.map.Anthill;
 import fr.cypno.anthill.map.Cell;
 import fr.cypno.anthill.map.Food;
+import fr.cypno.anthill.map.Map;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,9 +25,9 @@ public class BasicBehavior extends Behavior {
     }
 
     @Override
-    public Cell computeDestination() {
+    public Cell computeDestination(Map map) {
         if (!returnHome) {
-            return super.computeDestination();
+            return super.computeDestination(map);
         } else {
             //System.out.println("Returning home");
             return this.cells.pop();
