@@ -35,16 +35,11 @@ public class BasicBehavior extends Behavior {
 
     @Override
     protected void computeProbabilities(Cell[][] cells) {
-        this.computeSuperProbabilities(cells);
         int direction = ant.getDirection();
         for (int i = 0; i < 8; i++) {
             Cell cell = findCell(cells, (direction + i) % 8);
             probabilities.add(new Probability(weights[i] + (int) cell.getPheromonQuantity(), cell));
         }
-    }
-    
-    protected void computeSuperProbabilities(Cell[][] cells) {
-        super.computeProbabilities(cells);
     }
 
     protected Cell findCell(Cell[][] cells, int direction) {

@@ -17,6 +17,7 @@ public class Test {
             System.out.println("-------------\nLoop: " + i);
             System.out.println("Quantité nourriture dans Anthill : " + sim.getMap().getAnthill().getQuantity());
             System.out.println("Quantité nourriture hors Anthill : " + sim.getMap().foodMapQuantity(sim.getMap().getMap()));
+            //Thread.sleep(500);
         }
         System.out.println("-------------\nSimulation finie ! \n-------------");
     }
