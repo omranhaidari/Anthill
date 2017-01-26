@@ -9,8 +9,48 @@ import java.util.Scanner;
 
 public class Map {
 
-    private int numberOfRows;
-    private int numberOfColumns;
+    private int height;
+    private int width;
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getNumberOfSources() {
+        return numberOfSources;
+    }
+
+    public void setNumberOfSources(int numberOfSources) {
+        this.numberOfSources = numberOfSources;
+    }
+
+    public int[] getQuantityPerSource() {
+        return quantityPerSource;
+    }
+
+    public void setQuantityPerSource(int[] quantityPerSource) {
+        this.quantityPerSource = quantityPerSource;
+    }
+
+    public int getCellNb() {
+        return cellNb;
+    }
+
+    public void setCellNb(int cellNb) {
+        this.cellNb = cellNb;
+    }
     private int numberOfSources;
     private int[] quantityPerSource;
     private Cell[][] map;
@@ -25,6 +65,10 @@ public class Map {
     public Anthill getAnthill() {
         return anthill;
     }
+    
+    public Cell getCell(int x, int y){
+        return this.map[x][y];
+    }
 
     public Map(String filePath) throws InvalidMapFile, FileNotFoundException {
         buildMap(filePath);
@@ -33,12 +77,12 @@ public class Map {
     public void buildMap(String filePath) throws InvalidMapFile, FileNotFoundException {
         Scanner scanner = new Scanner(new File(filePath));
         if (scanner.hasNextInt()) {
-            this.numberOfRows = scanner.nextInt();
+            this.height = scanner.nextInt();
         } else {
             throw new InvalidMapFile("Incorrect number of rows.");
         }
         if (scanner.hasNextInt()) {
-            this.numberOfColumns = scanner.nextInt();
+            this.width = scanner.nextInt();
         } else {
             throw new InvalidMapFile("Incorrect number of columns.");
         }
@@ -56,19 +100,19 @@ public class Map {
             }
         }
         scanner.nextLine(); // Vide la ligne
-        this.map = new Cell[this.numberOfRows][this.numberOfColumns];
+        this.map = new Cell[this.height][this.width];
         char value;
         int sourceCount = 0;
         int anthillCount = 0;
-        for (int i = 0; i < this.numberOfRows; i++) {
+        for (int i = 0; i < this.height; i++) {
             if (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                for (int j = 0; j < this.numberOfColumns; j++) {
+                for (int j = 0; j < this.width; j++) {
 
                     if (line.length() > j) {
                         value = line.charAt(j);
                     } else {
-                        throw new InvalidMapFile("Line " + (i + 1) + " : length (" + line.length() + ") differs  from expected length (" + this.numberOfColumns + ").");
+                        throw new InvalidMapFile("Line " + (i + 1) + " : length (" + line.length() + ") differs  from expected length (" + this.width + ").");
                     }
 
                     switch (value) {
@@ -97,7 +141,7 @@ public class Map {
                     }
                 }
             } else {
-                throw new InvalidMapFile("Not enough rows (" + i + "), expected : " + this.numberOfRows + ".");
+                throw new InvalidMapFile("Not enough rows (" + i + "), expected : " + this.height + ".");
             }
         }
         scanner.close();
@@ -117,8 +161,8 @@ public class Map {
     @Override
     public String toString() {
         String s = "";
-        s += "cols: " + this.numberOfColumns + "\n";
-        s += "rows: " + this.numberOfRows + "\n";
+        s += "cols: " + this.width + "\n";
+        s += "rows: " + this.height + "\n";
         s += "sources: " + this.numberOfSources + "\n";
         s += Map.printCellMatrix(this.map);
         return s;
@@ -166,11 +210,11 @@ public class Map {
     }
 
     private boolean isClosed() {
-        for (int i = 0; i < this.numberOfRows; i++)
-            if (!(map[i][0] instanceof Obstacle && map[i][this.numberOfColumns - 1] instanceof Obstacle))
+        for (int i = 0; i < this.height; i++)
+            if (!(map[i][0] instanceof Obstacle && map[i][this.width - 1] instanceof Obstacle))
                 return false;
-        for (int i = 0; i < this.numberOfColumns; i++)
-            if (!(map[0][i] instanceof Obstacle && map[this.numberOfRows - 1][i] instanceof Obstacle))
+        for (int i = 0; i < this.width; i++)
+            if (!(map[0][i] instanceof Obstacle && map[this.height - 1][i] instanceof Obstacle))
                 return false;
         return true;
     }
