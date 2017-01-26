@@ -19,6 +19,7 @@ public final class Simulation implements Runnable {
     private double pheromonDecrease;
     private long step;
     private long lastUpdate;
+    private long pauseTime;
     private boolean inPause;
 
     public Map getMap() {
@@ -37,8 +38,14 @@ public final class Simulation implements Runnable {
         return inPause;
     }
 
-    public synchronized void setInPause(boolean inPause) {
-        this.inPause = inPause;
+    public synchronized void setPause() {
+        this.inPause = true;
+        pauseTime = new Date().getTime();
+    }
+
+    public synchronized void setUnPause() {
+        this.inPause = false;
+        this.lastUpdate = new Date().getTime() + lastUpdate - pauseTime;
     }
 
     public long getStep() {
@@ -54,6 +61,8 @@ public final class Simulation implements Runnable {
         this.pheromonDecrease = pheromonDecrease;
         this.step = step;
         this.lastUpdate = new Date().getTime();
+        this.pauseTime = 0;
+        this.inPause = false;
         this.frame = null;
         try {
             initialize(nbAnts);

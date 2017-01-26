@@ -2,15 +2,14 @@ package fr.cypno.anthill.graphics;
 
 import fr.cypno.anthill.ant.Ant;
 import fr.cypno.anthill.graphics.tiles.*;
+import fr.cypno.anthill.graphics.ui.*;
 import fr.cypno.anthill.map.*;
 import fr.cypno.anthill.simulation.Simulation;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -21,6 +20,7 @@ public class Frame extends Application {
     private static Map map;
     private Stage stage;
     private Thread thread;
+    private ArrayList<Button> buttons;
 
     public static void launchFrame(String[] args, int cellSize, int nbAnts, double pheromonDecrease, long step) {
         Frame.cellSize = cellSize;
@@ -32,11 +32,15 @@ public class Frame extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
+
+        this.buttons = new ArrayList<>();
+        buttons.add(new PauseButton(0, 0, 50, 50));
+
         simulation.setFrame(this);
         thread = new Thread(simulation);
         thread.start();
-        stage.setWidth(map.getMap()[0].length * cellSize + map.getMap()[0].length + cellSize * 2);
-        stage.setHeight(map.getMap().length * cellSize + map.getMap().length + cellSize * 2);
+        stage.setWidth(1200);
+        stage.setHeight(700);
         stage.setTitle("Ant Simulator 17 - Game of the Year Edition");
         drawScene(stage);
     }
@@ -44,18 +48,21 @@ public class Frame extends Application {
     public void drawScene(Stage stage) {
         Group root = new Group();
         Scene scene = new Scene(root);
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                System.out.println(mouseEvent.getSceneX() + "/" + mouseEvent.getSceneY());
-                togglePause();
-            }
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (MouseEvent mouseEvent) -> {
+            System.out.println(mouseEvent.getSceneX() + "/" + mouseEvent.getSceneY());
+            for (Button b : buttons)
+                b.click(mouseEvent.getX(), mouseEvent.getY(), this);
         });
         scene.setFill(Color.GRAY);
 
         Group ui = new Group();
+        for (Button b : buttons)
+            ui.getChildren().add(b.draw());
+        root.getChildren().add(ui);
 
         Group ground = new Group();
+        ground.setTranslateX(0);
+        ground.setTranslateY(70);
         Cell[][] cells = map.getMap();
         for (int l = 0; l < cells.length; l++) {
             for (int c = 0; c < cells[l].length; c++) {
@@ -86,14 +93,15 @@ public class Frame extends Application {
     
     public void togglePause() {
         if (simulation.isInPause()) {
-            simulation.setInPause(false);
+            simulation.setUnPause();
         }
         else {
-            simulation.setInPause(true);
+            simulation.setPause();
         }
+        drawScene(stage);
     }
 
-    public void notifyFrame() {
+    public synchronized void notifyFrame() {
         Platform.runLater(() -> drawScene(stage));
     }
 }
