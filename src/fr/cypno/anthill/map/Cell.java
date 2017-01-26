@@ -1,14 +1,18 @@
 package fr.cypno.anthill.map;
 
+import fr.cypno.anthill.graphics.Positionnable;
 
-public abstract class Cell {
+
+public abstract class Cell implements Positionnable {
     private double pheromonQuantity;
     private int x, y;
 
+    @Override
     public int getX() {
         return x;
     }
 
+    @Override
     public int getY() {
         return y;
     }

@@ -6,8 +6,12 @@ import fr.cypno.anthill.map.*;
 import fr.cypno.anthill.simulation.Simulation;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -40,23 +44,36 @@ public class Frame extends Application {
     public void drawScene(Stage stage) {
         Group root = new Group();
         Scene scene = new Scene(root);
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println(mouseEvent.getSceneX() + "/" + mouseEvent.getSceneY());
+                togglePause();
+            }
+        });
         scene.setFill(Color.GRAY);
+
+        Group ui = new Group();
+
+        Group ground = new Group();
         Cell[][] cells = map.getMap();
         for (int l = 0; l < cells.length; l++) {
             for (int c = 0; c < cells[l].length; c++) {
                 Cell cell = cells[l][c];
                 if (cell instanceof Anthill)
-                    root.getChildren().add(new AnthillTile((Anthill) cell).draw(cellSize));
+                    ground.getChildren().add(new AnthillTile((Anthill) cell, cellSize).draw());
                 else if (cell instanceof Obstacle)
-                    root.getChildren().add(new ObstacleTile((Obstacle) cell).draw(cellSize));
+                    ground.getChildren().add(new ObstacleTile((Obstacle) cell, cellSize).draw());
                 else if (cell instanceof Food)
-                    root.getChildren().add(new FoodTile((Food) cell).draw(cellSize));
+                    ground.getChildren().add(new FoodTile((Food) cell, cellSize).draw());
                 else
-                    root.getChildren().add(new EmptyTile((Empty) cell).draw(cellSize));
+                    ground.getChildren().add(new EmptyTile((Empty) cell, cellSize).draw());
             }
         }
         for (Ant ant : simulation.getAnts())
-            root.getChildren().add(new AntTile(ant).draw(cellSize));
+            ground.getChildren().add(new AntTile(ant, cellSize).draw());
+        root.getChildren().add(ground);
+
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(e -> close());
@@ -65,6 +82,15 @@ public class Frame extends Application {
     public void close()
     {
         System.exit(0);
+    }
+    
+    public void togglePause() {
+        if (simulation.isInPause()) {
+            simulation.setInPause(false);
+        }
+        else {
+            simulation.setInPause(true);
+        }
     }
 
     public void notifyFrame() {

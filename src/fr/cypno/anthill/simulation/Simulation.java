@@ -9,8 +9,7 @@ import fr.cypno.anthill.map.Food;
 import fr.cypno.anthill.map.Map;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
 
 public final class Simulation implements Runnable {
 
@@ -19,6 +18,8 @@ public final class Simulation implements Runnable {
     private Frame frame;
     private double pheromonDecrease;
     private long step;
+    private long lastUpdate;
+    private boolean inPause;
 
     public Map getMap() {
         return this.map;
@@ -32,10 +33,27 @@ public final class Simulation implements Runnable {
         this.frame = frame;
     }
 
+    public boolean isInPause() {
+        return inPause;
+    }
+
+    public synchronized void setInPause(boolean inPause) {
+        this.inPause = inPause;
+    }
+
+    public long getStep() {
+        return step;
+    }
+
+    public synchronized void setStep(long step) {
+        this.step = step;
+    }
+
     public Simulation(int nbAnts, double pheromonDecrease, long step) {
         this.ants = new ArrayList<>();
         this.pheromonDecrease = pheromonDecrease;
         this.step = step;
+        this.lastUpdate = new Date().getTime();
         this.frame = null;
         try {
             initialize(nbAnts);
@@ -77,13 +95,15 @@ public final class Simulation implements Runnable {
 
     public void run() {
         while (true) {
-            try {
-                Thread.sleep(step);
-            } catch (InterruptedException ex) {
-                System.exit(0);
+            System.out.print("");
+            if (!inPause) {
+                long update = new Date().getTime();
+                if (update - lastUpdate > getStep()) {
+                    lastUpdate = update;
+                    update();
+                    frame.notifyFrame();
+                }
             }
-            update();
-            frame.notifyFrame();
         }
     }
 }

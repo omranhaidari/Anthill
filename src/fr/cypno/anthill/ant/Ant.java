@@ -2,9 +2,10 @@ package fr.cypno.anthill.ant;
 
 import fr.cypno.anthill.ant.behavior.Behavior;
 import fr.cypno.anthill.ant.exceptions.*;
+import fr.cypno.anthill.graphics.Positionnable;
 import fr.cypno.anthill.map.*;
 
-public class Ant {
+public class Ant implements Positionnable {
     private double foodCapacity;
     private double pheromons;
     private double food;
@@ -61,10 +62,12 @@ public class Ant {
         this.food = food;
     }
 
+    @Override
     public int getX() {
         return position.getX();
     }
 
+    @Override
     public int getY() {
         return position.getY();
     }
