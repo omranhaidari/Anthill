@@ -34,7 +34,9 @@ public class Frame extends Application {
         this.stage = stage;
 
         this.buttons = new ArrayList<>();
-        buttons.add(new PauseButton(0, 0, 50, 50));
+        buttons.add(new PauseButton(51, 0, 50, 50));
+        buttons.add(new SlowButton(0, 0, 50, 50));
+        buttons.add(new SpeedButton(102, 0, 50, 50));
 
         simulation.setFrame(this);
         thread = new Thread(simulation);
@@ -62,7 +64,7 @@ public class Frame extends Application {
 
         Group ground = new Group();
         ground.setTranslateX(0);
-        ground.setTranslateY(70);
+        ground.setTranslateY(51);
         Cell[][] cells = map.getMap();
         for (int l = 0; l < cells.length; l++) {
             for (int c = 0; c < cells[l].length; c++) {
@@ -99,6 +101,14 @@ public class Frame extends Application {
             simulation.setPause();
         }
         drawScene(stage);
+    }
+    
+    public void speedUp() {
+        simulation.setStep(simulation.getStep() / 2);
+    }
+    
+    public void slowDown() {
+        simulation.setStep(simulation.getStep() * 2);
     }
 
     public synchronized void notifyFrame() {
