@@ -32,40 +32,50 @@ public class AStar {
     
     public List<Cell> getShortestPath() {
         
+        if(this.goal instanceof Obstacle)
+            return null;
         this.openList = new LinkedList<Cell>();
         this.closedList = new LinkedList<Cell>();
         this.openList.add(this.start); 
 
        
         Cell current;
-        while (!pathFound) {
-            current = getCellWithProbableLowestCost(); 
+        int j = 0;
+        while (!openList.isEmpty()) {
+            current = getCellWithLowestCost();
+            System.out.println();
+            System.out.print("Open : ");
+            for (int i = 0; i < this.openList.size(); i++) {
+            System.out.print("(" + this.openList.get(i).getX() + ", " + this.openList.get(i).getY() + ") cost : " + this.openList.get(i).getTotalCost() + " h : " + + this.openList.get(i).getHeuristicCost());
+            }
+            /*System.out.print("Close : ");
+            for (int i = 0; i < this.closedList.size(); i++) {
+            System.out.print("(" + this.closedList.get(i).getX() + ", " + this.closedList.get(i).getY() + ")");
+            }*/
+            System.out.println();
+            System.out.println("=(" + current.getX() + "," + current.getY() + ")");
+            if ((current.getX() == this.goal.getX()) && (current.getY() == this.goal.getY())) { 
+                return calcPath();
+            }
             this.closedList.add(current); 
             this.openList.remove(current);
-
-            if ((current.getX() == this.goal.getX()) && (current.getY() == this.goal.getY())) { 
-                return calcPath(this.start, current);
-            }
 
             List<Cell> adjacentCells = getNeighbors(current);
             for (int i = 0; i < adjacentCells.size(); i++) {
                 Cell currentAdjacentCell = adjacentCells.get(i);
                 if (!openList.contains(currentAdjacentCell)) { 
-                    currentAdjacentCell.setPrevious(current); // set current node as previous for this node
-                    currentAdjacentCell.sethCosts(this.goal); // set h costs of this node (estimated costs to goal)
-                    currentAdjacentCell.setgCosts(current); // set g costs of this node (costs from start to this node)
-                    openList.add(currentAdjacentCell); // add node to openList
-                } else { // node is in openList
-                    if (currentAdjacentCell.getgCosts() > currentAdjacentCell.calculategCosts(current)) { // costs from current node are cheaper than previous costs
-                        currentAdjacentCell.setPrevious(current); // set current node as previous for this node
-                        currentAdjacentCell.setgCosts(current); // set g costs of this node (costs from start to this node)
+                    currentAdjacentCell.setPreviousCell(current); 
+                    currentAdjacentCell.computeHeuristicCost(this.goal); 
+                    currentAdjacentCell.setMovementCost(current); 
+                    openList.add(currentAdjacentCell); 
+                } else { 
+                    if (currentAdjacentCell.getMovementCost() > currentAdjacentCell.computeMovementCost(current)) { 
+                        currentAdjacentCell.setPreviousCell(current); 
+                        currentAdjacentCell.setMovementCost(current); 
                     }
                 }
             }
-
-            if (openList.isEmpty()) {
-                return new LinkedList<Cell>(); 
-            }
+            j++;
         }
         return null;
     }
@@ -74,38 +84,29 @@ public class AStar {
         
         LinkedList<Cell> path = new LinkedList<Cell>();
 
-        Cell current = goal;
+        Cell current = this.goal;
         boolean done = false;
         while (!done) {
             path.addFirst(current);
-            current = (Cell) current.getPrevious();
+            current = (Cell) current.getPreviousCell();
 
-            if (current.equals(start)) {
+            if (current.equals(this.start)) {
                 done = true;
             }
         }
         return path;
     }
     
-    private Cell getCellWithProbableLowestCost() {
+    private Cell getCellWithLowestCost() {
         
         Cell candidate = openList.get(0);
-        for (int i = 0; i < openList.size(); i++) {
-            if (getCost(openList.get(i), this.goal) < getCost(candidate, this.goal)) {
+        for (int i = 1; i < openList.size(); i++) {
+            if (openList.get(i).getTotalCost() < candidate.getTotalCost()) {
                 candidate = openList.get(i);
             }
         }
         return candidate;
     }
-    
-    public float getCost(Cell current, Cell goal) {	
-        
-            float dx = goal.getX() - current.getX();
-            float dy = goal.getY() - current.getY();
-            float cost = (float) (Math.sqrt((dx*dx)+(dy*dy)));
-
-            return cost;
-	}
     
     private List<Cell> getNeighbors(Cell cell) {
         
@@ -121,7 +122,7 @@ public class AStar {
             }
         }
 
-        if (x < this.map.getWidth()) {
+        if (x < this.map.getWidth() - 1) {
             neighbor = this.map.getCell(x + 1 , y);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
@@ -135,14 +136,14 @@ public class AStar {
             }
         }
 
-        if (y < this.map.getHeight()) {
+        if (y < this.map.getHeight() - 1) {
             neighbor = this.map.getCell(x, y + 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
         
-        if (x < this.map.getWidth() && y < this.map.getHeight()) {
+        if (x < this.map.getWidth() - 1 && y < this.map.getHeight() - 1) {
             neighbor = this.map.getCell(x + 1, y + 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
@@ -156,19 +157,24 @@ public class AStar {
             }
         }
 
-        if (x > 0 && y < this.map.getHeight()) {
+        if (x > 0 && y < this.map.getHeight() - 1) {
             neighbor = this.map.getCell(x - 1, y + 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
 
-        if (x < this.map.getWidth() && y > 0) {
+        if (x < this.map.getWidth() - 1 && y > 0) {
             neighbor = this.map.getCell(x + 1, y - 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
+        
+        for (int i = 0; i < neighbors.size(); i++) {
+            System.out.print("(" + neighbors.get(i).getX() + ", " + neighbors.get(i).getY() + ") - ");
+        } 
+        
         return neighbors;
     } 
 }

@@ -67,7 +67,8 @@ public class Map {
     }
     
     public Cell getCell(int x, int y){
-        return this.map[x][y];
+        //System.out.println("x = " + x + " y = " + y + ", map1 = " + this.map[0].length + ", map2 = " + this.map.length);
+        return this.map[y][x];
     }
 
     public Map(String filePath) throws InvalidMapFile, FileNotFoundException {
