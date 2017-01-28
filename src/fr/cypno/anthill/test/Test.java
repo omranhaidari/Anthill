@@ -24,18 +24,17 @@ public class Test {
         System.out.println("-------------\nSimulation finie ! \n-------------");*/
         sim.printMap();
         Cell start = sim.getMap().getCell(1, 1);
-        Cell goal = sim.getMap().getCell(13, 9);
-        //for(int i = 0; i < sim.getMap().getMap().length; i++);
-        System.out.println("x = " + goal.getX() + ", y = " + goal.getY());
-        //AStar astar = new AStar(sim.getMap(), start, goal);
-        //List<Cell> path = astar.getShortestPath();
+        Cell goal = sim.getMap().getCell(8, 11);
+       ///for(int i = 0; i < sim.getMap().getMap().length; i++);
+        //System.out.println("x = " + goal.getX() + ", y = " + goal.getY());
+        List<Cell> path = AStar.getShortestPath(sim.getMap(), start, goal);
         /*
         Cell c = sim.getMap().getCell(2, 1);
         c.computeHeuristicCost(goal);
         System.out.println(c.getHeuristicCost());*/
-/*
+
         for (int i = 0; i < path.size(); i++) {
             System.out.print("  -> (" + path.get(i).getX() + ", " + path.get(i).getY() + ")");
-        }*/
+        }
     }
 }

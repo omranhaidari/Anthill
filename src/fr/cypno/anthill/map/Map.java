@@ -11,70 +11,31 @@ public class Map {
 
     private int height;
     private int width;
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getNumberOfSources() {
-        return numberOfSources;
-    }
-
-    public void setNumberOfSources(int numberOfSources) {
-        this.numberOfSources = numberOfSources;
-    }
-
-    public int[] getQuantityPerSource() {
-        return quantityPerSource;
-    }
-
-    public void setQuantityPerSource(int[] quantityPerSource) {
-        this.quantityPerSource = quantityPerSource;
-    }
-
-    public int getCellNb() {
-        return cellNb;
-    }
-
-    public void setCellNb(int cellNb) {
-        this.cellNb = cellNb;
-    }
     private int numberOfSources;
     private int[] quantityPerSource;
     private Cell[][] map;
-
     private Anthill anthill;
     public int cellNb;
-    
-    public Cell[][] getMap() {
-        return map;
-    }
-    
-    public Anthill getAnthill() {
-        return anthill;
-    }
-    
-    public Cell getCell(int x, int y){
-        //System.out.println("x = " + x + " y = " + y + ", map1 = " + this.map[0].length + ", map2 = " + this.map.length);
-        return this.map[y][x];
-    }
 
+    /**
+     * Constructeur de la classe Map.
+     * 
+     * @param filePath Chemin du fichier de la carte
+     * @throws InvalidMapFile
+     * @throws FileNotFoundException
+     */
     public Map(String filePath) throws InvalidMapFile, FileNotFoundException {
         buildMap(filePath);
     }
 
+    /**
+     * Méthode permettant de construire la matrice de cellules à partir du fichier
+     * dont le chemin est filePath.
+     * 
+     * @param filePath Chemin du fichier de la carte
+     * @throws InvalidMapFile
+     * @throws FileNotFoundException
+     */
     public void buildMap(String filePath) throws InvalidMapFile, FileNotFoundException {
         Scanner scanner = new Scanner(new File(filePath));
         if (scanner.hasNextInt()) {
@@ -169,14 +130,39 @@ public class Map {
         return s;
     }
 
+    /**
+     * Méthode retournant une chaîne de caratères correspondant à l'affichage de 
+     * la carte à partir d'une matrice de cellules.
+     * 
+     * @param matrix Matrice de cellules
+     * @return Chaîne de caratères correspondant à l'affichage de la carte à 
+     * partir d'une matrice de cellules
+     */
     public static String printCellMatrix(Cell[][] matrix) {
         return printCellMatrix(matrix, null);
     }
 
+    /**
+     * Méthode retournant une chaîne de caratères correspondant à l'affichage de 
+     * la carte à partir d'une liste de fourmis.
+     * 
+     * @param ants Liste de fourmis
+     * @return chaîne de caratères correspondant à l'affichage de la carte à 
+     * partir d'une liste de fourmis
+     */
     public String printCellMatrix(ArrayList<Ant> ants) {
         return printCellMatrix(this.map, ants);
     }
 
+    /**
+     * Méthode retournant une chaîne de caratères correspondant à l'affichage de 
+     * la carte à partir d'une matrice de cellules et une liste de fourmis.
+     * 
+     * @param matrix Matrice de cellules
+     * @param ants Liste de fourmis
+     * @return chaîne de caratères correspondant à l'affichage de la carte à 
+     * partir d'une matrice de cellules et une liste de fourmis
+     */
     public static String printCellMatrix(Cell[][] matrix, ArrayList<Ant> ants) {
         String s = "";
         for (int i = 0; i < matrix.length; i++) {
@@ -196,6 +182,17 @@ public class Map {
         return s;
     }
 
+    /**
+     * Méthode retournant une sous-matrice située entre les cellules (l1,c1)
+     * et (l2,c2).
+     * 
+     * @param l1 Ligne de la première cellule
+     * @param c1 Colonne de la première cellule
+     * @param l2 Ligne de la deuxième cellule
+     * @param c2 Colonne de la deuxième cellule
+     * @return matric sous-matrice située entre les cellules (l1,c1)
+     * et (l2,c2)
+     */
     public Cell[][] getMatrix(int l1, int c1, int l2, int c2) {
         Cell[][] matrix = new Cell[l2 - l1 + 1][];
         for (int l = l1; l <= l2; l++) {
@@ -210,6 +207,11 @@ public class Map {
         return matrix;
     }
 
+    /**
+     *  Méthode qui vérifie que la carte est bien fermée par des obstacles.
+     * 
+     * @return true si la carte est fermée, false sinon
+     */
     private boolean isClosed() {
         for (int i = 0; i < this.height; i++)
             if (!(map[i][0] instanceof Obstacle && map[i][this.width - 1] instanceof Obstacle))
@@ -220,6 +222,13 @@ public class Map {
         return true;
     }
     
+    /**
+     * Méthode retournant la quantité totale de nourriture présente sur la
+     * carte.
+     * 
+     * @param map
+     * @return
+     */
     public double foodMapQuantity(Cell[][] map) {
         double mapFoodQuantity = 0.0;
         for (int i = 0; i < map.length; i++) {
@@ -230,5 +239,135 @@ public class Map {
             }
         }
         return mapFoodQuantity;
+    }
+    
+    
+    /**
+     * Methode retournant la hauteur de la matrice de cellules.
+     * 
+     * @return height Hauteur de la matrice de cellules
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * Methode modifiant la hauteur de la matrice de cellules.
+     * 
+     * @param height Nouvelle hauteur de la matrice de cellules
+     */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    /**
+     * Methode retournant la largeur de la matrice de cellules.
+     * 
+     * @return  width Largeur de la matrice de cellules
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * Methode modifiant la largeur de la matrice de cellules.
+     * 
+     * @param width Nouvelle largeur de la matrice de cellules
+     */
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    /**
+     * Methode retournant le nombre de sources contenues dans la matrice de 
+     * cellules.
+     * 
+     * @return numberOfSources Nombre de sources contenues dans la matrice de 
+     * cellules
+     */
+    public int getNumberOfSources() {
+        return numberOfSources;
+    }
+
+    /**
+     * Methode modifiant le nombre de sources contenues dans la matrice de 
+     * cellules.
+     * 
+     * @param numberOfSources Nouveau nombre de sources contenues dans la
+     * matrice de cellules
+     */
+    public void setNumberOfSources(int numberOfSources) {
+        this.numberOfSources = numberOfSources;
+    }
+
+    /**
+     * Methode retournant un tableau contenant les quantités de nourriture des
+     * sources.
+     * 
+     * @return quantityPerSource Tableau contenant les quantités de nourriture
+     * des sources
+     */
+    public int[] getQuantityPerSource() {
+        return quantityPerSource;
+    }
+
+    /**
+     * Methode modifiant un tableau contenant les quantités de nourriture des 
+     * sources.
+     * 
+     * @param quantityPerSource Tableau contenant les nouvelles quantités de
+     * nourriture des sources
+     */
+    public void setQuantityPerSource(int[] quantityPerSource) {
+        this.quantityPerSource = quantityPerSource;
+    }
+
+    /**
+     * Méthode retournant le nombre de cellules contenues dans la matrice.
+     * 
+     * @return cellNb Nombre de cellules contenues dans la matrice
+     */
+    public int getCellNb() {
+        return cellNb;
+    }
+
+    /**
+     * Méthode modifiant le nombre de cellules contenues dans la matrice.
+     * 
+     * @param cellNb Nouveau nombre de cellules contenues dans la matrice
+     */
+    public void setCellNb(int cellNb) {
+        this.cellNb = cellNb;
+    }
+    
+    /**
+     * Méthode retournant la matrice de cellules.
+     * 
+     * @return map Matrice de cellules
+     */
+    public Cell[][] getMap() {
+        return map;
+    }
+    
+    /**
+     * Méthode retournant la fourmilière contenue dans la matrice de cellules.
+     * 
+     * @return anthill Fourmilière contenue dans la matrice de cellules
+     */
+    public Anthill getAnthill() {
+        return anthill;
+    }
+    
+    /**
+     * Méthode retournant la cellule située sur la ligne l et la colonne c de
+     * la matrice de cellules
+     * 
+     * @param l Ligne de la cellule
+     * @param c Colonne de la cellule
+     * @return cellule située sur la ligne l et la colonne c de la matrice de
+     * cellules
+     */
+    public Cell getCell(int l, int c){
+        return this.map[l][c];
     }
 }

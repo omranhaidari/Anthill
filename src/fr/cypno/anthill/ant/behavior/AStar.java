@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.cypno.anthill.ant.behavior;
 
 import fr.cypno.anthill.map.Cell;
@@ -12,92 +7,112 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
- * @author Corentin
+ * Classe qui permet de rechercher un plus court chemin entre un point de départ et un point d'arrivée. 
+ * La recherche du plus court chemin se base sur l'algorithme A*
  */
 public class AStar {
     
-    private List<Cell> openList;
-    private List<Cell> closedList;
-    private Cell start, goal;
-    private Map map;
-    private boolean pathFound;
-    
-    public AStar(Map map, Cell start, Cell goal){
-        this.map = map;
-        this.start = start;
-        this.goal = goal; 
-        this.pathFound = false;
-    }
-    
-    public List<Cell> getShortestPath() {
-        
-        if(this.goal instanceof Obstacle)
+    /**
+     * Méthode de recherche du plus court chemin entre la cellule de départ et 
+     * la cellule d'arrivée sur la matrice de cellules courrante.
+     * 
+     * Cette méthode utilise l'algorithme A*. Elle retourne une LinkedList 
+     * contenant le les cellules qui constituent le plus court chemin du point
+     * de départ au point d'arrivée.
+     * 
+     * Si la cellule d'arrivée est un obstacle ou que'elle est inaccessible, il 
+     * n'existe pas de chemin et une LinkedList vide est retournée.
+     * 
+     * Cette méthode prend en compte la taille et la hauteur de la carte.
+     * 
+     * @param map Matrice de cellules
+     * @param start Cellule de départ
+     * @param goal Cellule d'arrivée
+     * @return LinkedList contenant le plus court chemin s'il existe, null sinon
+     */
+    public static List<Cell> getShortestPath(Map map, Cell start, Cell goal) {
+        // La cellule d'arrivée est un obstacle, il n'y a donc aucun chemin possible
+        if(goal instanceof Obstacle)
             return null;
-        this.openList = new LinkedList<Cell>();
-        this.closedList = new LinkedList<Cell>();
-        this.openList.add(this.start); 
+        // Liste contenant les cellules non visitées mais adjacentes aux cellules déjà visitées
+        List<Cell> openList = new LinkedList<Cell>();
+        // Liste contenant les cellules déjà visitées et traitées
+        List<Cell> closedList = new LinkedList<Cell>();
+        openList.add(start); 
 
        
         Cell current;
-        int j = 0;
         while (!openList.isEmpty()) {
-            current = getCellWithLowestCost();
-            System.out.println();
-            System.out.print("Open : ");
-            for (int i = 0; i < this.openList.size(); i++) {
-            System.out.print("(" + this.openList.get(i).getX() + ", " + this.openList.get(i).getY() + ") cost : " + this.openList.get(i).getTotalCost() + " h : " + + this.openList.get(i).getHeuristicCost());
+            // Récupération de la cellule contenue dans l'open list avec le coût le plus faible
+            current = getCellWithLowestCost(openList);
+            // Cellule d'arrivée trouvée
+            if ((current.getX() == goal.getX()) && (current.getY() == goal.getY())) { 
+                return calcPath(start, goal);
             }
-            /*System.out.print("Close : ");
-            for (int i = 0; i < this.closedList.size(); i++) {
-            System.out.print("(" + this.closedList.get(i).getX() + ", " + this.closedList.get(i).getY() + ")");
-            }*/
-            System.out.println();
-            System.out.println("=(" + current.getX() + "," + current.getY() + ")");
-            if ((current.getX() == this.goal.getX()) && (current.getY() == this.goal.getY())) { 
-                return calcPath();
-            }
-            this.closedList.add(current); 
-            this.openList.remove(current);
-
-            List<Cell> adjacentCells = getNeighbors(current);
+            closedList.add(current); 
+            openList.remove(current);
+            
+            // Récupération des cellules voisines incluant les cellules en diagonale
+            List<Cell> adjacentCells = getNeighbors(map, current, closedList);
+            // Traitement effectué pour toutes les cellules adjacentes
             for (int i = 0; i < adjacentCells.size(); i++) {
                 Cell currentAdjacentCell = adjacentCells.get(i);
                 if (!openList.contains(currentAdjacentCell)) { 
+                    // La cellule courrante devient le parent de la cellule adjacente courrante
                     currentAdjacentCell.setPreviousCell(current); 
-                    currentAdjacentCell.computeHeuristicCost(this.goal); 
+                    // Calcul du coût heuristique (distance euclidienne dans notre cas) de la cellule adjacente à la celle d'arrivée
+                    currentAdjacentCell.computeHeuristicCost(goal); 
+                    // Calcul du coût de déplacement de la cellule de départ à la cellule courrante
                     currentAdjacentCell.setMovementCost(current); 
                     openList.add(currentAdjacentCell); 
                 } else { 
+                    // Le coût de déplacement jusqu'à la cellule courrante est inférieur au coût précédent 
                     if (currentAdjacentCell.getMovementCost() > currentAdjacentCell.computeMovementCost(current)) { 
+                        // La cellule courrante devient le parent de la cellule adjacente courrante
                         currentAdjacentCell.setPreviousCell(current); 
+                        // Calcul du coût de déplacement de la cellule de départ à la cellule courrante
                         currentAdjacentCell.setMovementCost(current); 
                     }
                 }
             }
-            j++;
         }
+        // Aucun chemin n'existe
         return null;
     }
-    
-    private List<Cell> calcPath() {
+    /**
+     * Méthode calculant le plus court chemin entre une cellule de départ et 
+     * d'arrivée en remontant de la cellule d'arrivée jusqu'à la cellule de 
+     * départ grâce aux cellules parentes définies dans la méthode getShortestPath()
+     * 
+     * @param start Cellule de départ
+     * @param goal Cellule d'arrivée
+     * @return LinkedList contenant le plus court chemin s'il existe, null sinon
+     */
+    private static List<Cell> calcPath(Cell start, Cell goal) {
         
         LinkedList<Cell> path = new LinkedList<Cell>();
 
-        Cell current = this.goal;
+        Cell current = goal;
         boolean done = false;
         while (!done) {
             path.addFirst(current);
             current = (Cell) current.getPreviousCell();
 
-            if (current.equals(this.start)) {
+            if (current.equals(start)) {
                 done = true;
             }
         }
         return path;
     }
     
-    private Cell getCellWithLowestCost() {
+    /**
+     * Méthode retournant la cellule de l'open list avec le coût le plus faible
+     * (coût de déplacement + coût heuristique)
+     *
+     * @param openList Liste contenant les cellules non visitées mais adjacentes aux cellules déjà visitées
+     * @return Cell cellule de l'open list avec le coût le plus faible
+     */
+    private static Cell getCellWithLowestCost(List<Cell> openList) {
         
         Cell candidate = openList.get(0);
         for (int i = 1; i < openList.size(); i++) {
@@ -108,73 +123,77 @@ public class AStar {
         return candidate;
     }
     
-    private List<Cell> getNeighbors(Cell cell) {
+    /**
+     * Méthode retournant une liste de cellules adjacentes à la cellule 
+     * courrante et praticables.
+     *
+     * @param map Matrice de cellules
+     * @param cell Cellule courrante
+     * @param closedList Liste contenant les cellules déjà visitées et traitées
+     * @return LinkedList contenant le plus court chemin s'il existe, null sinon
+     */
+    private static List<Cell> getNeighbors(Map map, Cell cell, List<Cell> closedList) {
         
-        int x = cell.getX();
-        int y = cell.getY();
+        int l = cell.getX();
+        int c = cell.getY();
         List<Cell> neighbors = new LinkedList<Cell>();
 
         Cell neighbor;
-        if (x > 0) {
-            neighbor = this.map.getCell(x - 1 , y);
+        if (l > 0) {
+            neighbor = map.getCell(l - 1 , c);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
 
-        if (x < this.map.getWidth() - 1) {
-            neighbor = this.map.getCell(x + 1 , y);
+        if (l < map.getHeight() - 1) {
+            neighbor = map.getCell(l + 1 , c);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
 
-        if (y > 0) {
-            neighbor = this.map.getCell(x , y - 1);
+        if (c > 0) {
+            neighbor = map.getCell(l , c - 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
 
-        if (y < this.map.getHeight() - 1) {
-            neighbor = this.map.getCell(x, y + 1);
+        if (c < map.getWidth() - 1) {
+            neighbor = map.getCell(l, c + 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
         
-        if (x < this.map.getWidth() - 1 && y < this.map.getHeight() - 1) {
-            neighbor = this.map.getCell(x + 1, y + 1);
+        if (l < map.getHeight() - 1 && c < map.getWidth() - 1) {
+            neighbor = map.getCell(l + 1, c + 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
 
-        if (x > 0 && y > 0) {
-            neighbor = this.map.getCell(x - 1, y - 1);
+        if (l > 0 && c > 0) {
+            neighbor = map.getCell(l - 1, c - 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
 
-        if (x > 0 && y < this.map.getHeight() - 1) {
-            neighbor = this.map.getCell(x - 1, y + 1);
+        if (l > 0 && c < map.getWidth() - 1) {
+            neighbor = map.getCell(l - 1, c + 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
 
-        if (x < this.map.getWidth() - 1 && y > 0) {
-            neighbor = this.map.getCell(x + 1, y - 1);
+        if (l < map.getHeight() - 1 && c > 0) {
+            neighbor = map.getCell(l + 1, c - 1);
             if (!(neighbor instanceof Obstacle) && !closedList.contains(neighbor)) {
                 neighbors.add(neighbor);
             }
         }
-        
-        for (int i = 0; i < neighbors.size(); i++) {
-            System.out.print("(" + neighbors.get(i).getX() + ", " + neighbors.get(i).getY() + ") - ");
-        } 
-        
         return neighbors;
     } 
 }
