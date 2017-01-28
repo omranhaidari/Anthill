@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 
 public class BasicBehavior extends Behavior {
 
-    private boolean returnHome;
-    private Stack<Cell> cells;
+    protected boolean returnHome;
+    protected Stack<Cell> cells;
 
     public BasicBehavior(Ant ant) {
         super(ant);
@@ -25,7 +25,7 @@ public class BasicBehavior extends Behavior {
     }
 
     @Override
-    public Cell computeDestination(Map map) {
+    public final Cell computeDestination(Map map) {
         if (!returnHome) {
             return super.computeDestination(map);
         } else {
@@ -43,7 +43,7 @@ public class BasicBehavior extends Behavior {
         }
     }
 
-    protected Cell findCell(Cell[][] cells, int direction) {
+    protected final Cell findCell(Cell[][] cells, int direction) {
         switch (direction) {
             case 0:
                 return cells[0][1];
@@ -69,7 +69,7 @@ public class BasicBehavior extends Behavior {
         if (!returnHome) {
             this.cells.push(ant.getPosition());
         }
-        super.moveTo(dest);
+        super.moveAnt(dest);
         if (!returnHome && this.ant.getPosition() instanceof Food) {
             try {
                 this.ant.pullFood();

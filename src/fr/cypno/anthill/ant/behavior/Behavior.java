@@ -35,15 +35,18 @@ public abstract class Behavior {
         }
         return null;
     }
-    
+
     protected void computeProbabilities(Cell[][] cells) {
     }
 
-    protected void clearProbabilities() {
+    protected final void clearProbabilities() {
         this.probabilities.clear();
     }
 
     public void moveTo(Cell dest) {
+    }
+
+    public final void moveAnt(Cell dest) {
         this.ant.moveTo(dest);
     }
 }

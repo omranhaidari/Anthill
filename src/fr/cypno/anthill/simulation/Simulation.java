@@ -1,7 +1,7 @@
 package fr.cypno.anthill.simulation;
 
 import fr.cypno.anthill.ant.Ant;
-import fr.cypno.anthill.ant.behavior.AdvancedBehavior;
+import fr.cypno.anthill.ant.behavior.*;
 import fr.cypno.anthill.graphics.Frame;
 import fr.cypno.anthill.map.Cell;
 import fr.cypno.anthill.map.Empty;
@@ -77,7 +77,7 @@ public final class Simulation implements Runnable {
         for (int i = 0; i < nbAnts; i++) {
             Ant a = new Ant(map, 20, 20, 0);
             a.setPosition(map.getAnthill());
-            a.setBehavior(new AdvancedBehavior(a));
+            a.setBehavior(new GuidedBehavior(a, map));
             ants.add(a);
         }
     }
