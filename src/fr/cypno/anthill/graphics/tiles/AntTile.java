@@ -6,10 +6,19 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class AntTile extends Tile{
+
+    /**
+     *
+     * @param ant
+     * @param cellSize
+     */
     public AntTile(Ant ant, int cellSize) {
         super(ant, cellSize);
     }
 
+    /**
+     *
+     */
     @Override
     protected void computeDrawing() {
         Rectangle rec = new Rectangle(0, 0, cellSize, cellSize);

@@ -5,19 +5,31 @@ import fr.cypno.anthill.map.Cell;
 import fr.cypno.anthill.map.Map;
 import java.util.ArrayList;
 import java.util.Random;
+
  /**
   * Classe abstraite qui gère le comportement des fourmis.
   */
+
 public abstract class Behavior {
+
     protected Ant ant;
     protected ArrayList<Probability> probabilities;
     protected int[] weights;
 
+    /**
+     * Constructeur de la classe Behavior à partir d'une fourmi
+     * @param ant Fourmi
+     */
     public Behavior(Ant ant) {
         this.ant = ant;
         this.probabilities = new ArrayList<>();
     }
     
+    /**
+     *
+     * @param map
+     * @return
+     */
     public Cell computeDestination(Map map) {
         int x = ant.getPosition().getX();
         int y = ant.getPosition().getY();
@@ -36,16 +48,31 @@ public abstract class Behavior {
         return null;
     }
 
+    /**
+     *
+     * @param cells
+     */
     protected void computeProbabilities(Cell[][] cells) {
     }
 
+    /**
+     *
+     */
     protected final void clearProbabilities() {
         this.probabilities.clear();
     }
 
+    /**
+     *
+     * @param dest
+     */
     public void moveTo(Cell dest) {
     }
 
+    /**
+     *
+     * @param dest
+     */
     public final void moveAnt(Cell dest) {
         this.ant.moveTo(dest);
     }

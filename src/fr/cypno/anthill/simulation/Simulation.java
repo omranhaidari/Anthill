@@ -22,40 +22,76 @@ public final class Simulation implements Runnable {
     private long pauseTime;
     private boolean inPause;
 
+    /**
+     *
+     * @return
+     */
     public Map getMap() {
         return this.map;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Ant> getAnts() {
         return ants;
     }
 
+    /**
+     *
+     * @param frame
+     */
     public void setFrame(Frame frame) {
         this.frame = frame;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isInPause() {
         return inPause;
     }
 
+    /**
+     *
+     */
     public synchronized void setPause() {
         this.inPause = true;
         pauseTime = new Date().getTime();
     }
 
+    /**
+     *
+     */
     public synchronized void setUnPause() {
         this.inPause = false;
         this.lastUpdate = new Date().getTime() + lastUpdate - pauseTime;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getStep() {
         return step;
     }
 
+    /**
+     *
+     * @param step
+     */
     public synchronized void setStep(long step) {
         this.step = step;
     }
 
+    /**
+     *
+     * @param nbAnts
+     * @param pheromonDecrease
+     * @param step
+     */
     public Simulation(int nbAnts, double pheromonDecrease, long step) {
         this.ants = new ArrayList<>();
         this.pheromonDecrease = pheromonDecrease;
@@ -72,6 +108,11 @@ public final class Simulation implements Runnable {
         }
     }
 
+    /**
+     *
+     * @param nbAnts
+     * @throws Exception
+     */
     public void initialize(int nbAnts) throws Exception {
         this.map = new Map(System.getProperty("user.dir") + File.separator + "ressources" + File.separator + "maps" + File.separator + "map.txt");
         for (int i = 0; i < nbAnts; i++) {
@@ -82,6 +123,9 @@ public final class Simulation implements Runnable {
         }
     }
 
+    /**
+     *
+     */
     public void update() {
         for (Ant a : ants) {
             a.update();
@@ -98,6 +142,9 @@ public final class Simulation implements Runnable {
         }
     }
 
+    /**
+     *
+     */
     public void printMap() {
         System.out.println(map.printCellMatrix(ants));
     }

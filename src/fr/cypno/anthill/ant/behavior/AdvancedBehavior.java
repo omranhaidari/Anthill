@@ -6,13 +6,20 @@ import fr.cypno.anthill.map.Cell;
 import fr.cypno.anthill.map.Food;
 import fr.cypno.anthill.map.Obstacle;
 
-
 public class AdvancedBehavior extends BasicBehavior{
     
+    /**
+     *
+     * @param ant
+     */
     public AdvancedBehavior(Ant ant) {
         super(ant);
     }
     
+    /**
+     *
+     * @param cells
+     */
     @Override
     protected void computeProbabilities(Cell[][] cells) {
         if (ant.getPosition() instanceof Anthill) {

@@ -7,10 +7,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class AnthillTile extends Tile {
+
+    /**
+     *
+     * @param anthill
+     * @param cellSize
+     */
     public AnthillTile(Anthill anthill, int cellSize) {
         super(anthill, cellSize);
     }
 
+    /**
+     *
+     */
     @Override
     protected void computeDrawing() {
         Rectangle rec = new Rectangle(0, 0, cellSize, cellSize);

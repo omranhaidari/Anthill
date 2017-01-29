@@ -13,9 +13,20 @@ import java.util.logging.Logger;
 
 public class BasicBehavior extends Behavior {
 
+    /**
+     *
+     */
     protected boolean returnHome;
+
+    /**
+     *
+     */
     protected Stack<Cell> cells;
 
+    /**
+     *
+     * @param ant
+     */
     public BasicBehavior(Ant ant) {
         super(ant);
         this.returnHome = false;
@@ -24,6 +35,11 @@ public class BasicBehavior extends Behavior {
         //this.weights = new int[] { 100, 0, 0, 0, 0, 0, 0, 0 };
     }
 
+    /**
+     *
+     * @param map
+     * @return
+     */
     @Override
     public final Cell computeDestination(Map map) {
         if (!returnHome) {
@@ -34,6 +50,10 @@ public class BasicBehavior extends Behavior {
         }
     }
 
+    /**
+     *
+     * @param cells
+     */
     @Override
     protected void computeProbabilities(Cell[][] cells) {
         int direction = ant.getDirection();
@@ -43,6 +63,12 @@ public class BasicBehavior extends Behavior {
         }
     }
 
+    /**
+     *
+     * @param cells
+     * @param direction
+     * @return
+     */
     protected final Cell findCell(Cell[][] cells, int direction) {
         switch (direction) {
             case 0:
@@ -64,6 +90,10 @@ public class BasicBehavior extends Behavior {
         }
     }
 
+    /**
+     *
+     * @param dest
+     */
     @Override
     public void moveTo(Cell dest) {
         if (!returnHome) {

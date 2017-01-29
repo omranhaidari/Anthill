@@ -10,13 +10,26 @@ import fr.cypno.anthill.map.Map;
 import java.util.List;
 
 public class GuidedBehavior extends AdvancedBehavior {
+
+    /**
+     *
+     */
     protected Map map;
 
+    /**
+     *
+     * @param ant
+     * @param map
+     */
     public GuidedBehavior(Ant ant, Map map) {
         super(ant);
         this.map = map;
     }
 
+    /**
+     *
+     * @param dest
+     */
     @Override
     public void moveTo(Cell dest) {
         super.moveAnt(dest);

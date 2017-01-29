@@ -7,7 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Classe qui permet de rechercher un plus court chemin entre un point de départ et un point d'arrivée. 
+ * Classe qui permet de rechercher un plus court chemin entre un point de départ
+ * et un point d'arrivée. 
  * La recherche du plus court chemin se base sur l'algorithme A*
  */
 public class AStar {

@@ -7,14 +7,24 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Map {
+/**
+ * Map est la classe représentant une carte composée de cellules.
+ */
 
+public class Map {
+    // Hauteur de la carte
     private int height;
+    // Largeur de la carte
     private int width;
+    // Nombre de sources présentes sur la carte
     private int numberOfSources;
+    // Tableau contenant les quantités de nourriture des différentes sources présentes sur la carte
     private int[] quantityPerSource;
+    // Matrice de cellules représentant la carte
     private Cell[][] map;
+    // Unique fourmilière présente sur la carte
     private Anthill anthill;
+    // Nombre de cellules présentes sur la carte
     public int cellNb;
 
     /**
@@ -120,6 +130,7 @@ public class Map {
         }
     }
 
+    
     @Override
     public String toString() {
         String s = "";

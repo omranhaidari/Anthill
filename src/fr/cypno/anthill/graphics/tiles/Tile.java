@@ -6,15 +6,36 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 
 public abstract class Tile implements Drawable {
+
+    /**
+     *
+     */
     protected Positionnable positionnable;
+
+    /**
+     *
+     */
     protected int cellSize;
+
+    /**
+     *
+     */
     protected Group group;
 
+    /**
+     *
+     * @param positionnable
+     * @param cellSize
+     */
     public Tile(Positionnable positionnable, int cellSize) {
         this.positionnable = positionnable;
         this.cellSize = cellSize;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public final Node draw() {
         group = new Group();
@@ -24,6 +45,9 @@ public abstract class Tile implements Drawable {
         return group;
     }
 
+    /**
+     *
+     */
     protected void computeDrawing() {
     }
 }

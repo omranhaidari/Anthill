@@ -14,64 +14,127 @@ public class Ant implements Positionnable {
     private Behavior behavior;
     private Map map;
 
+    /**
+     *
+     * @return
+     */
     public Behavior getBehavior() {
         return behavior;
     }
 
+    /**
+     *
+     * @param behavior
+     */
     public void setBehavior(Behavior behavior) {
         this.behavior = behavior;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDirection() {
         return direction;
     }
 
+    /**
+     *
+     * @param direction
+     */
     public void setDirection(int direction) {
         this.direction = direction;
     }
 
+    /**
+     *
+     * @return
+     */
     public Cell getPosition() {
         return position;
     }
 
+    /**
+     *
+     * @param position
+     */
     public void setPosition(Cell position) {
         this.position = position;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getFoodCapacity() {
         return foodCapacity;
     }
 
+    /**
+     *
+     * @param foodCapacity
+     */
     public void setFoodCapacity(double foodCapacity) {
         this.foodCapacity = foodCapacity;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getPheromons() {
         return pheromons;
     }
 
+    /**
+     *
+     * @param pheromons
+     */
     public void setPheromons(double pheromons) {
         this.pheromons = pheromons;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getFood() {
         return food;
     }
 
+    /**
+     *
+     * @param food
+     */
     public void setFood(double food) {
         this.food = food;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getX() {
         return position.getX();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getY() {
         return position.getY();
     }
 
+    /**
+     *
+     * @param map
+     * @param foodCapacity
+     * @param pheromons
+     * @param direction
+     */
     public Ant(Map map, double foodCapacity, double pheromons, int direction) {
         this.map = map;
         this.foodCapacity = foodCapacity;
@@ -81,6 +144,10 @@ public class Ant implements Positionnable {
         this.behavior = null;
     }
 
+    /**
+     *
+     * @param dest
+     */
     public void moveTo(Cell dest) {
         if (dest.getX() < position.getX() && dest.getY() == position.getY()) {
             direction = 0;
@@ -147,10 +214,16 @@ public class Ant implements Positionnable {
         this.food = 0.0;
     }
 
+    /**
+     *
+     */
     public void dropPheromons() {
         this.position.setPheromons(this.position.getPheromonQuantity() + this.pheromons);
     }
 
+    /**
+     *
+     */
     public void update() {
         Cell dest = this.behavior.computeDestination(map);
         if (dest != null && !(dest instanceof Obstacle)) {

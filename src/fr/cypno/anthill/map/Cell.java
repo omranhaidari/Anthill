@@ -3,18 +3,31 @@ package fr.cypno.anthill.map;
 import fr.cypno.anthill.graphics.Positionnable;
 
 
+/**
+ * Cell est la classe représentant une cellule de la carte.
+ */
+
 public abstract class Cell implements Positionnable {
+
+    // Coût de déplacement d'une cellule à une cellule adjacente
     protected static final int MOVEMENTCOST = 1;
+    // Quantité maximale de phéromones par cellule
     protected static final double MAX_PHEROMONS = 100;
+    // Quantité de phéromones présente sur la cellule
     private double pheromonQuantity;
+    // Numéro de ligne et de colonne de la cellule
     private int x, y;
+    // Cellule parente (utilisée dans le cadre de la recherche du plus court chemin entre deux cellules)
     private Cell previousCell;
+    // Coût de déplacement d'une cellule à une cellule adjacente ou non
     private double movementCost;
+    // Évaluation heuristique correspondant au calcul de la distance euclidienne entre deux cellules
     private double heuristicCost;
 
     /**
-     * Méthode retournant
-     * @return
+     * Méthode retournant le numéro de ligne de la cellule.
+     * 
+     * @return  Numéro de ligne
      */
     @Override
     public int getX() {
@@ -22,8 +35,9 @@ public abstract class Cell implements Positionnable {
     }
 
     /**
-     *
-     * @return
+     * Méthode retournant le numéro de colonne de la cellule.
+     * 
+     * @return Numéro de colonne
      */
     @Override
     public int getY() {
@@ -31,19 +45,23 @@ public abstract class Cell implements Positionnable {
     }
 
     /**
-     * Constructeur de la classe Celle.
-     * @param x
-     * @param y
+     * Constructeur de la classe Cell à partir de coordonnées avec une quantité 
+     * de phéromones nulle.
+     * 
+     * @param x  Numéro de ligne
+     * @param y  Numéro de colonne
      */
     public Cell(int x, int y){
         this(x, y, 0);
     }
 
     /**
-     *
-     * @param x
-     * @param y
-     * @param pheromons
+     * Constructeur de la classe Cell à partir de coordonnées et d'une 
+     * quantité de phéromones initiale. 
+     * 
+     * @param x Numéro de ligne
+     * @param y Numéro de colonne
+     * @param pheromons Quantité de phéromones initiale
      */
     public Cell(int x, int y, double pheromons){
         this.pheromonQuantity = pheromons;
@@ -55,6 +73,7 @@ public abstract class Cell implements Positionnable {
 
     /**
      * Méthode retournant la quantité de phéromones présente sur la cellule.
+     * 
      * @return pheromonQuantity Quantité de phéromones présente sur la cellule
      */
     public double getPheromonQuantity(){
@@ -63,6 +82,7 @@ public abstract class Cell implements Positionnable {
 
     /**
      * Méthode modifiant la quantité de phéromones présente sur la cellule.
+     * 
      * @param quantity
      */
     public void setPheromons(double quantity) {
@@ -72,13 +92,20 @@ public abstract class Cell implements Positionnable {
     }
 
     /**
-     *
-     * @return
+     * Méthode retournant une chaîne de caractères utilisée pour l'affichage de la carte
+     * 
+     * @return Chaîne de caractères utilisée pour l'affichage de la carte
      */
     public String getChar() {
         return " ";
     }
 
+    /**
+     * Méthode retournant une chaîne de caractères contenant des informations sur une cellule.
+     * 
+     * @return Chaîne de caractères contenant des informations sur une cellule
+     */
+    
     @Override
     public String toString() {
         return String.format("Cell: (%d,%d) %f", x, y, pheromonQuantity);

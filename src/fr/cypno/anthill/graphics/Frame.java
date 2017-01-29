@@ -22,6 +22,14 @@ public class Frame extends Application {
     private Thread thread;
     private ArrayList<Button> buttons;
 
+    /**
+     *
+     * @param args
+     * @param cellSize
+     * @param nbAnts
+     * @param pheromonDecrease
+     * @param step
+     */
     public static void launchFrame(String[] args, int cellSize, int nbAnts, double pheromonDecrease, long step) {
         Frame.cellSize = cellSize;
         Frame.simulation = new Simulation(nbAnts, pheromonDecrease, step);
@@ -29,6 +37,11 @@ public class Frame extends Application {
         launch(args);
     }
 
+    /**
+     *
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -47,6 +60,10 @@ public class Frame extends Application {
         drawScene(stage);
     }
 
+    /**
+     *
+     * @param stage
+     */
     public void drawScene(Stage stage) {
         Group root = new Group();
         Scene scene = new Scene(root);
@@ -88,11 +105,17 @@ public class Frame extends Application {
         stage.setOnCloseRequest(e -> close());
     }
 
+    /**
+     *
+     */
     public void close()
     {
         System.exit(0);
     }
     
+    /**
+     *
+     */
     public void togglePause() {
         if (simulation.isInPause()) {
             simulation.setUnPause();
@@ -103,14 +126,23 @@ public class Frame extends Application {
         drawScene(stage);
     }
     
+    /**
+     *
+     */
     public void speedUp() {
         simulation.setStep(simulation.getStep() / 2);
     }
     
+    /**
+     *
+     */
     public void slowDown() {
         simulation.setStep(simulation.getStep() * 2);
     }
 
+    /**
+     *
+     */
     public synchronized void notifyFrame() {
         Platform.runLater(() -> drawScene(stage));
     }

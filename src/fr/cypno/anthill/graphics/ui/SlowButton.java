@@ -10,15 +10,24 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-/**
- *
- * @author captaincat
- */
 public class SlowButton extends Button {
+
+    /**
+     * Constructeur de la classe SlowButton à partir des coordonnées de son coin
+     * supérieur gauche et de ses dimensions.
+     * 
+     * @param x Abscisse du coin supérieur gauche du bouton
+     * @param y Ordonnée du coin supérieur gauche du bouton
+     * @param sizeX Largeur du bouton
+     * @param sizeY Hauteur du bouton
+     */
     public SlowButton(int x, int y, int sizeX, int sizeY) {
         super(x, y, sizeX, sizeY);
     }
 
+    /**
+     *
+     */
     @Override
     protected void computeDrawing() {
         Rectangle rec = new Rectangle(0, 0, sizeX, sizeY);
@@ -26,6 +35,10 @@ public class SlowButton extends Button {
         group.getChildren().add(rec);
     }
 
+    /**
+     *
+     * @param frame
+     */
     @Override
     protected void clickAction(Frame frame) {
         frame.slowDown();
