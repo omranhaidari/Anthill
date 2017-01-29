@@ -23,12 +23,13 @@ public class Frame extends Application {
     private ArrayList<Button> buttons;
 
     /**
-     *
-     * @param args
-     * @param cellSize
-     * @param nbAnts
-     * @param pheromonDecrease
-     * @param step
+     * Crée une nouvelle Frame.
+     * @param args les arguments du main
+     * @param cellSize la taille en pixels d'une cellule
+     * @param nbAnts le nombre de fourmis
+     * @param pheromonDecrease le taux de disparition des phéromones à chaque
+     *          mise à jour
+     * @param step le temps d'attente entre chaque mise à jour en millisecondes
      */
     public static void launchFrame(String[] args, int cellSize, int nbAnts, double pheromonDecrease, long step) {
         Frame.cellSize = cellSize;
@@ -38,8 +39,8 @@ public class Frame extends Application {
     }
 
     /**
-     *
-     * @param stage
+     * Lance l'exécution de la fenêtre.
+     * @param stage le stage de dessin
      * @throws Exception
      */
     @Override
@@ -61,14 +62,13 @@ public class Frame extends Application {
     }
 
     /**
-     *
+     * Rafraichit la zone de dessin.
      * @param stage
      */
     public void drawScene(Stage stage) {
         Group root = new Group();
         Scene scene = new Scene(root);
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (MouseEvent mouseEvent) -> {
-            System.out.println(mouseEvent.getSceneX() + "/" + mouseEvent.getSceneY());
             for (Button b : buttons)
                 b.click(mouseEvent.getX(), mouseEvent.getY(), this);
         });
@@ -106,7 +106,7 @@ public class Frame extends Application {
     }
 
     /**
-     *
+     * Ferme l'application.
      */
     public void close()
     {
@@ -114,7 +114,7 @@ public class Frame extends Application {
     }
     
     /**
-     *
+     * Met la simulation en pause ou en route.
      */
     public void togglePause() {
         if (simulation.isInPause()) {
@@ -127,21 +127,21 @@ public class Frame extends Application {
     }
     
     /**
-     *
+     * Accélère la simulation.
      */
     public void speedUp() {
         simulation.setStep(simulation.getStep() / 2);
     }
     
     /**
-     *
+     * Ralentit la simulation.
      */
     public void slowDown() {
         simulation.setStep(simulation.getStep() * 2);
     }
 
     /**
-     *
+     * Notifie la fenêtre pour rafraichir la zone de dessin.
      */
     public synchronized void notifyFrame() {
         Platform.runLater(() -> drawScene(stage));
