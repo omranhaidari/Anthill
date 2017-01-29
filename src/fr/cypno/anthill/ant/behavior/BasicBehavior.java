@@ -32,7 +32,6 @@ public class BasicBehavior extends Behavior {
         this.returnHome = false;
         this.cells = new Stack<>();
         this.weights = new int[]{50, 20, 10, 5, 0, 5, 10, 20, 100};
-        //this.weights = new int[] { 100, 0, 0, 0, 0, 0, 0, 0 };
     }
 
     /**
@@ -45,7 +44,6 @@ public class BasicBehavior extends Behavior {
         if (!returnHome) {
             return super.computeDestination(map);
         } else {
-            //System.out.println("Returning home");
             return this.cells.pop();
         }
     }

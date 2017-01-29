@@ -26,9 +26,12 @@ public abstract class Behavior {
     }
     
     /**
-     *
-     * @param map
-     * @return
+     * Méthode qui retourne une destination déterminée selon les probabilités
+     * définies au préalable. Si les cellules adjacentes ne sont pas praticables,
+     * null est renvoyé.
+     * 
+     * @param map Matrice de cellules
+     * @return destination ou null si aucune cellule adjacente n'est accessible
      */
     public Cell computeDestination(Map map) {
         int x = ant.getPosition().getX();

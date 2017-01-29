@@ -32,7 +32,7 @@ public class Anthill extends Cell{
     }
 
     /**
-     * Méthode retournant la quantité de nourriture présente dans la fourmilière.
+     * F
      * 
      * @return quantité de nourriture présente dans la fourmilière
      */
